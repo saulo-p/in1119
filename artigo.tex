@@ -1,0 +1,281 @@
+	
+\newcommand{\CLASSINPUTbaselinestretch}{1.0} % baselinestretch
+\newcommand{\CLASSINPUTinnersidemargin}{0.75in} % inner side margin
+\newcommand{\CLASSINPUToutersidemargin}{0.75in} % outer side margin
+\newcommand{\CLASSINPUTtoptextmargin}{0.75in}   % top text margin
+\newcommand{\CLASSINPUTbottomtextmargin}{0.75in}% bottom text margin
+
+\newcommand{\revised}[1]{{\color{blue}#1}}
+
+\documentclass[conference]{IEEEtran}
+
+\IEEEoverridecommandlockouts % precisa para usar o \thanks{}
+% *** CITATION PACKAGES ***
+%
+\usepackage{cite}
+\usepackage{flushend}
+\usepackage{xcolor}
+\usepackage[pdftex]{graphicx}
+
+\usepackage[utf8]{inputenc}
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% *** ALIGNMENT PACKAGES ***
+%
+\usepackage{array}
+\usepackage{multirow}
+
+% *** SUBFIGURE PACKAGES ***
+\usepackage[tight,footnotesize]{subfigure}
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage[bookmarks=false]{hyperref}
+\usepackage{url}
+
+% correct bad hyphenation here
+\hyphenation{rep-re-sen-ta-tion fe-de-ral}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{\vspace{0.25in}Avaliação estatística sobre seleção de características para categorização de texto}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+
+\author{\IEEEauthorblockN{
+		Rog\'{e}rio C. P. Fragoso\IEEEauthorrefmark{1}, 
+		Lucas F. Melo\IEEEauthorrefmark{1},
+		Saulo C. R. P. Sobrinho\IEEEauthorrefmark{1}
+}
+\IEEEauthorblockA{Universidade Federal de Pernambuco (UFPE), Centro de Inform\'{a}tica (CIn)\\
+Av. Jornalista Anibal Fernandes s/n, Cidade Universit\'{a}ria 50740-560, Recife, PE, Brazil\\
+rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
+%\IEEEauthorrefmark{1}Telephone: +55 81 2126-8430 Ext.4346 Fax: +55 81 2126-8438}}
+
+% make the title area
+\maketitle
+
+\begin{abstract}
+	%\boldmath
+\textcolor{red}{ESCREVER RESUMO}
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+% Formato descrito na página da disciplina. Lá ela diz que a presença destas seções é mandatória. 
+% (Acho que a gente não precisa organizar nesse formato exatamente, mas precisamos garantir que cada item esteja presente)
+
+%•       Passo 1 – Justificativa: De início, explicitam-se os motivos que justificam a pesquisa, determinando-se e delimitando-se o problema, o qual deve estar formulado de maneira clara e precisa.
+%•       Passo 2 - Fundamentação teórica: Descreve-se  o relacionamento do problema com a teoria que será utilizada na pesquisa.
+%•       Passo 3 - Objetivo da pesquisa: Os objetivos devem ser retirados diretamente dos problemas levantados no Passo 2. Define-se o que se pretende alcançar com a realização do trabalho.
+%•       Passo 4 - Especificação da amostra: Deve-se determinar a área de execução da pesquisa, a população a ser investigada, o tipo de amostra e a determinação do seu tamanho, bem como o tipo de amostragem a ser utilizado. Define-se as variáveis envolvidas.
+%•       Passo 5– Análise exploratória: Fazer um estudo descritivo dos dados (gráficos e medidas).  Verificar normalidade dos dados e potenciais pontos aberrantes.
+%•       Passo 6– Metodologia (Formulação das hipóteses): Estabelecem-se as hipóteses que serão formuladas, as quais devem ser claras e precisas. Define-se o problema estatisticamente, decidindo-se que informação estatística é realmente necessária e qual método que será aplicado.   
+%•       Passo 7 - Análise dos resultados: Passa-se ao tratamento dos dados por intermédio dos testes estatísticos, os quais dependem das hipóteses que serão testadas. Nesse tópico, é exigido que sejam aplicados testes de hipóteses paramétricos e/ou não paramétricos. Testes de duas amostras são exigidos, quando comparando abordagens.
+
+\section{Introdução}
+\label{sec:intro}
+
+\textcolor{red}{Nesta seção, apresentar o problema de seleção de características, categorização de textos e os conceitos básicos necessários para o entendimento do trabalho.}
+
+\subsection{Fundamentação teórica}
+%Seguindo o modelo sugerido no site, essa seção é obrigatória.
+
+Esta seção apresentou conceitos básicos de categorização de textos e seleção de características. 
+O restante do trabalho é organizado como segue: 
+A Seção \ref{sec:objetivo} apresenta o objetivo do presente trabalho. 
+Na Seção \ref{sec:exp} são detalhadas as configurações dos experimentos, incluindo descrição da base de dados, os algoritmos de interesse e as hipóteses a serem verificadas sobre os dados. 
+A Seção \ref{sec:analise} demonstra os procedimentos estatísticos realizados no trabalho.
+Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
+
+\section{Objetivo}
+\label{sec:objetivo}
+
+O objetivo do presente trabalho é avaliar o desempenho de 5 métodos de seleção de características usados em categorização de texto. Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal. Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
+
+
+\section{Experimentos}
+\label{sec:exp}
+
+Esta seção descreve as configurações dos experimentos.
+
+\subsection{Base de dados}
+\label{sec:bd}
+
+Neste trabalho a base de dados \textit{Reuters 10} foi utilizada. Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases
+mais utilizadas em trabalhos de categorização de texto. A base é
+composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135
+categorias. Entretanto, neste trabalho foi adotado um subconjunto composto pelas
+10 maiores categorias da base. O subconjunto \textit{Reuters 10} contém 9.980 documentos
+e seu vocabulário abarca 10.987 termos. A base de dados \textit{Reuters 10} também
+é bastante utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
+
+A distribuição dos documentos é bastante desbalanceada,
+apresentando categorias representando desde 2,3\% até 39\% do tamanho total da
+base. Nesta base foram aplicados os seguintes procedimentos de pré-processamento:
+remoção termos com duas ou menos letras, remoção de \textit{stopwords} e \textit{stemming}, com o algoritmo \textit{Iterated Lovins
+Stemmer}~\cite{lovins1968development}.
+
+
+\subsection{Metodologia}
+\label{sec:metodologia}
+
+A validação cruzada estratificada foi utilizada como método para estimativa de acurácia. Esta técnica é adotada para avaliar a capacidade de generalização de um modelo, a partir de um conjunto de dados. Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}. A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}. Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste. Os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para validação e uma para teste.
+
+Assim, temos dez medidas de desempenho para cada um dos quatro métodos de seleção de características avaliados. Esses dados correspondem às entradas para as análises estatísticas realizadas neste trabalho.
+
+A medida de desempenho utilizada nos experimentos foi \textit{Micro-F1}. Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
+
+\begin{equation}
+\operatorname{\mathcal{F}{1} = \frac{2 x \mathcal{P} x \mathcal{R}}{\mathcal{P} + \mathcal{R}}},
+\label{eq:micro_f1}
+\end{equation}
+
+\noindent onde $\mathcal{P}$ é uma medida chamada precisão e $\mathcal{R}$ é cobertura~\cite{chang2008multilabel}. As fórmulas para calcular a precisão $\mathcal{P}$ e a cobertura $\mathcal{R}$ são exibidas a seguir.
+
+\begin{equation}
+\operatorname{\mathcal{P}} = \frac{\sum_{j=1}^{C}TP_j}{\sum_{j=1}^{C}(TP_j + FP_j)}
+\label{eq:precision}
+\end{equation}
+
+\begin{equation}
+\operatorname{\mathcal{R}} = \frac{\sum_{j=1}^{C}TP_j}{\sum_{j=1}^{C}(TP_j + FN_j)}
+\label{eq:recall}
+\end{equation}
+
+$TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes à categoria $c_j$, $FP_j$ é a quantidade de instâncias incorretamente rotuladas como pertencentes à categoria $c_j$ e $FN_j$ é a quantidade de instâncias incorretamente rotuladas como não pertencentes à categoria $c_j$. 
+
+\section{Análise estatística}
+\label{sec:analise}
+
+\subsection{Estatística descritiva}
+
+Uma boa prática ao iniciar uma análise de um conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para visualização dos dados \cite{montgomery2010applied}.
+
+\begin{table}[h]
+	\centering
+	\caption{Estatística descritiva}
+	\label{tab:est_descr}
+	\begin{tabular}{cccc}
+		Método    & Média  & Mediana & Desv. Padrão  \\
+		\hline
+		AFSA&		81.05262 	& 80.9594 	& 0.9634384 \\
+		cMFDR&      81.39266 	& 81.38469 	& 1.027409 \\
+		MFDR& 		79.03808 	& 79.05812 	& 1.119577 \\
+		MFD&     	81.93872 	& 81.91752 	& 1.029598 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\textcolor{red}{FALAR SOBRE OS RESULTADOS
+Quais aparentam ser normais (média aprox. igual à mediana)
+}
+
+
+A Figura~\ref{fig:boxplot} apresenta uma.....
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/boxplot.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:boxplot}
+\end{figure}
+
+As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.....
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/hist_afsa.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_afsa}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/hist_cmfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_cmfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/hist_mfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/hist_mfd.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfd}
+\end{figure}
+
+
+
+
+\textcolor{red}{FAZER UMA CONCLUSÃO DA SEÇÃO
+Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
+
+\subsection{Testes de aderência}
+
+\textcolor{red}{Escrever uma motivação para o uso dos testes de aderência e uma breve explicação de como funcionam}
+
+A Tabela~\ref{tab:aderencia} exibe os resultados dos testes Shapiro-Wilk e Kolmogrov-Smirnov para os quatro métodos.
+
+\begin{table}[]
+	\centering
+	\caption{Resultados dos testes de aderência}
+	\label{tab:aderencia}
+	\begin{tabular}{c|ccc}
+		\hline
+		& \multicolumn{2}{c}{p-value}      \\
+		\cline{2-3}
+		& Shapiro-Wilk & Kolmogrov-Smirnov \\
+		\hline
+		AFSA  & 0.2353       & 0.1818            \\
+		cMFDR & 0.3107       & 0.1818            \\
+		MFDR  & 0.6773       & 0.1818            \\
+		MFD   & 0.3597       &  0.1818               \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\textcolor{red}{Escrever sobre os resultados do test Shapiro-Wilk}
+
+\textcolor{red}{Escrever sobre os resultados do test Kolmogrov-Smirnov}
+
+\subsection{Testes de hipóteses}
+
+\textcolor{red}{Ainda não executei os testes de hipóteses}
+
+\section{Conclusão}
+\label{sec:conclusao}
+
+\textcolor{red}{Escrever conclusão}
+
+
+
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+% \bibliography{IEEEabrv,../bib/paper}
+\bibliography{bb}
+
+\end{document}
