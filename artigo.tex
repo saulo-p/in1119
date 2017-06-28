@@ -93,10 +93,15 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 \section{Introdução}
 \label{sec:intro}
 
-\textcolor{red}{Nesta seção, apresentar o problema de seleção de características, categorização de textos e os conceitos básicos necessários para o entendimento do trabalho.}
+Algoritmos são sequências de instruções bem definidas, porém, suas implementações podem apresentar comportamentos difíceis de serem previstos.
+Seja pelo uso de geração de números pseudo-aleatórios que geram um comportamento não determinístico inerente ao código, ou pelo uso de linguagens de alto nível cuja tradução para linguagem de máquina passa por otimizações e diferentes interações com a arquitetura de destino na qual o algoritmo é executado.
+Sendo assim, a performance de algoritmos de computação em geral é não-determinística e ao analisar comparativamente o desempenho destes algoritmos é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
+
+Este trabalho realiza comparação entre algoritmos de categorização de texto mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
 
 \subsection{Fundamentação teórica}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
+\textcolor{red}{Nesta seção, apresentar o problema de seleção de características, categorização de textos e os conceitos básicos necessários para o entendimento do trabalho.}
 
 Esta seção apresentou conceitos básicos de categorização de textos e seleção de características. 
 O restante do trabalho é organizado como segue: 
@@ -108,40 +113,54 @@ Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
 \section{Objetivo}
 \label{sec:objetivo}
 
-O objetivo do presente trabalho é avaliar o desempenho de 5 métodos de seleção de características usados em categorização de texto. Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal. Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
+O objetivo do presente trabalho é avaliar e comparar o desempenho de quatro métodos de seleção de características usados em categorização de texto.
+Esta análise comparativa permite determinar se os algoritmos possuem desempenhos significativamente diferentes e, em caso positivo, determinar quais deles se destacam dos demais.
 
+%Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal.
+%Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
 
 \section{Experimentos}
 \label{sec:exp}
 
-Esta seção descreve as configurações dos experimentos.
+Esta seção descreve as configurações dos experimentos realizados para gerar o conjunto de dados sobre o qual a análise será realizada.
 
 \subsection{Base de dados}
 \label{sec:bd}
 
-Neste trabalho a base de dados \textit{Reuters 10} foi utilizada. Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases
-mais utilizadas em trabalhos de categorização de texto. A base é
-composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135
-categorias. Entretanto, neste trabalho foi adotado um subconjunto composto pelas
-10 maiores categorias da base. O subconjunto \textit{Reuters 10} contém 9.980 documentos
-e seu vocabulário abarca 10.987 termos. A base de dados \textit{Reuters 10} também
-é bastante utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
+Neste trabalho a base de dados \textit{Reuters 10} foi utilizada.
+Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases mais utilizadas em trabalhos de categorização de texto.
+A base é composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135 categorias.
+Entretanto, neste trabalho foi adotado um subconjunto composto pelas 10 maiores categorias da base.
+O subconjunto \textit{Reuters 10} contém 9.980 documentos e seu vocabulário abarca 10.987 termos.
+A base de dados \textit{Reuters 10} também é bastante utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
 
-A distribuição dos documentos é bastante desbalanceada,
-apresentando categorias representando desde 2,3\% até 39\% do tamanho total da
-base. Nesta base foram aplicados os seguintes procedimentos de pré-processamento:
+A distribuição dos documentos é bastante desbalanceada, apresentando categorias representando desde 2,3\% até 39\% do tamanho total da base. 
+Nesta base foram aplicados os seguintes procedimentos de pré-processamento:
 remoção termos com duas ou menos letras, remoção de \textit{stopwords} e \textit{stemming}, com o algoritmo \textit{Iterated Lovins
 Stemmer}~\cite{lovins1968development}.
 
+Vale salientar que para os propósitos da disciplina o uso de repositórios como base para análise não é permitido, porém, a análise comparativa deste trabalho será realizada sobre o desempenho dos algoritmos (tendo a base citada como entrada) e não sobre características da base em si.
 
 \subsection{Metodologia}
 \label{sec:metodologia}
 
-A validação cruzada estratificada foi utilizada como método para estimativa de acurácia. Esta técnica é adotada para avaliar a capacidade de generalização de um modelo, a partir de um conjunto de dados. Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}. A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}. Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste. Os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para validação e uma para teste.
+Como mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de algoritmos de seleção de características para categorização de texto.
+Neste trabalho, a comparação será feita entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Artificial Fish Swarm Algorithm} (ASFA) e \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) que é uma versão modificada do MFDR.
+A medida de desempenho a ser considerada nas comparações entre os algoritmos é a acurácia da seleção pois esta \textcolor{red} {... completar}.\\
+\textcolor{red}{Rogério, verifica se eu falei alguma besteira aqui}
 
-Assim, temos dez medidas de desempenho para cada um dos quatro métodos de seleção de características avaliados. Esses dados correspondem às entradas para as análises estatísticas realizadas neste trabalho.
+A validação cruzada estratificada foi utilizada como método para estimativa de acurácia.
+Esta técnica é adotada para avaliar a capacidade de generalização de um modelo a partir de um conjunto de dados.
+Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}.
+A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}.
+Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
+Os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para validação e uma para teste.
 
-A medida de desempenho utilizada nos experimentos foi \textit{Micro-F1}. Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
+Assim, temos dez medidas de desempenho para cada um dos quatro métodos de seleção de características avaliados.
+Estes dados de desempenho correspondem às entradas para as análises estatísticas realizadas neste trabalho.
+
+A medida de desempenho utilizada nos experimentos foi \textit{Micro-F1}.
+Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
 
 \begin{equation}
 \operatorname{\mathcal{F}{1} = \frac{2 x \mathcal{P} x \mathcal{R}}{\mathcal{P} + \mathcal{R}}},
@@ -167,7 +186,11 @@ $TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes �
 
 \subsection{Estatística descritiva}
 
-Uma boa prática ao iniciar uma análise de um conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para visualização dos dados \cite{montgomery2010applied}.
+Uma boa prática ao iniciar uma análise de um conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para visualização dos conjuntos de dados de interesse\cite{montgomery2010applied}.
+
+\textcolor{red} {Começar com histogramas/boxplots e normplots dos resultados de cada algoritmo. \\ \\
+INSERIR FIGURAS \\ \\ 
+Fazer algum tipo de argumentação sobre os resultados visuais mostrados e fazer um gancho para os testes de aderência.\\ \\}
 
 \begin{table}[h]
 	\centering
