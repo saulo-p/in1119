@@ -144,17 +144,15 @@ Vale salientar que para os propósitos da disciplina o uso de repositórios como
 \subsection{Metodologia}
 \label{sec:metodologia}
 
-Como mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de algoritmos de seleção de características para categorização de texto.
-Neste trabalho, a comparação será feita entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Artificial Fish Swarm Algorithm} (ASFA) e \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) que é uma versão modificada do MFDR.
-A medida de desempenho a ser considerada nas comparações entre os algoritmos é a acurácia da seleção pois esta \textcolor{red} {... completar}.\\
-\textcolor{red}{Rogério, verifica se eu falei alguma besteira aqui}
+Conforme mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de algoritmos de seleção de características para categorização de texto.
+Neste trabalho, a comparação é realizada entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) e \textit{Automatic Feature Subsets Analyzer} (ASFA). A avaliação dos desempenhos dos métodos foi realizada utilizando o algoritmo classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison} e a base de dados \textit{Reuters 10}. Deste modo, a base de dados é pre-processada utilizando-se para cada um dos quatro algoritmos de seleção de carcaterísticas, gerando, assim, quatro versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} é  treinado e testado com cada uma destas quatro versões.
 
-A validação cruzada estratificada foi utilizada como método para estimativa de acurácia.
+A validação cruzada estratificada foi utilizada como método para estimativa de desempenho.
 Esta técnica é adotada para avaliar a capacidade de generalização de um modelo a partir de um conjunto de dados.
 Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}.
 A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}.
 Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
-Os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para validação e uma para teste.
+O método AFSA requer uma porção dos dados para configuração de seus parâmetreos. Assim, os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para configuração de parâmetros/validação e uma para teste.
 
 Assim, temos dez medidas de desempenho para cada um dos quatro métodos de seleção de características avaliados.
 Estes dados de desempenho correspondem às entradas para as análises estatísticas realizadas neste trabalho.
@@ -263,7 +261,7 @@ Falar das impressões sobre a normalidade dos dados com bases nos histogramas, b
 
 A Tabela~\ref{tab:aderencia} exibe os resultados dos testes Shapiro-Wilk e Kolmogrov-Smirnov para os quatro métodos.
 
-\begin{table}[]
+\begin{table}[h]
 	\centering
 	\caption{Resultados dos testes de aderência}
 	\label{tab:aderencia}
