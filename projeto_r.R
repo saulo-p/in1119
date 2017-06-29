@@ -1,9 +1,10 @@
 # Read CSV into R
-afsa = unlist(read.csv(file='/Users/rogeriofragoso/Dropbox/PhD/Disciplinas/Estatística/Projeto/data/afsa.csv', header=TRUE, sep=','))
-cmfdr = unlist(read.csv(file='/Users/rogeriofragoso/Dropbox/PhD/Disciplinas/Estatística/Projeto/data/cmfdr.csv', header=TRUE, sep=','))
-mfdr = unlist(read.csv(file='/Users/rogeriofragoso/Dropbox/PhD/Disciplinas/Estatística/Projeto/data/mfdr.csv', header=TRUE, sep=','))
-mfd = unlist(read.csv(file='/Users/rogeriofragoso/Dropbox/PhD/Disciplinas/Estatística/Projeto/data/mfd.csv', header=TRUE, sep=','))
-mean(mfd)
+path = getwd()
+path = paste(path, 'data', sep='/')
+afsa = unlist(read.csv(file=paste(path, 'afsa.csv', sep='/'), header=TRUE, sep=','))
+cmfdr = unlist(read.csv(file=paste(path, 'cmfdr.csv', sep='/'), header=TRUE, sep=','))
+mfdr = unlist(read.csv(file=paste(path, 'mfdr.csv', sep='/'), header=TRUE, sep=','))
+mfd = unlist(read.csv(file=paste(path, 'mfd.csv', sep='/'), header=TRUE, sep=','))
 
 # Wrap data in a dataframe
 data = data.frame(afsa, cmfdr, mfdr, mfd)
@@ -35,7 +36,7 @@ cat(mfdr_mean, '\t|', mfdr_median, '\t|', mfdr_sd)
 cat(mfd_mean, '\t|', mfd_median, '\t|', mfd_sd)
 cat('__________________________________________')
 
-files_path = paste(getwd(), '/Dropbox/PhD/Disciplinas/Estatística/Projeto/graphs/', sep = '')
+files_path = paste(getwd(), '/img/', sep = '')
 files_path
 # Draw histograms for samples
 pdf(paste(files_path, 'hist_afsa.pdf', sep = ''))
@@ -55,7 +56,7 @@ hist(mfd)
 dev.off()
 
 # Draw boxplots for samples
-pdf("boxplot.pdf")
+pdf(paste(files_path, 'boxplot.pdf', sep = ''))
 boxplot(data)
 dev.off()
 
@@ -87,7 +88,7 @@ ks.test(mfd, pnorm(10, mean(mfd), sd(mfd)))
 
 
 
-# Hypothesis test for multiple samples (???)
+# Hypothesis test for multiple samples
 
 
 # Hypothesis test for paired samples
