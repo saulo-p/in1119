@@ -184,11 +184,89 @@ $TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes �
 
 \subsection{Estatística descritiva}
 
-Uma boa prática ao iniciar uma análise de um conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para visualização dos conjuntos de dados de interesse\cite{montgomery2010applied}.
+Uma boa prática ao iniciar uma análise de conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para ganhar intuições iniciais sobre o conjunto de interesse \cite{montgomery2010applied}.
 
-\textcolor{red} {Começar com histogramas/boxplots e normplots dos resultados de cada algoritmo. \\ \\
-INSERIR FIGURAS \\ \\ 
-Fazer algum tipo de argumentação sobre os resultados visuais mostrados e fazer um gancho para os testes de aderência.\\ \\}
+Para ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
+A suposição de normalidade é útil pois se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
+Testes paramétricos possuem maior poder estatístico que permite conclusões mais fortes do que os equivalentes não-paramétricos.
+
+Para verificar a normalidade, começamos utilizando ferramentas visuais.
+Histogramas permitem visualizar a distribuição das amostras e consequentemente intuir sobre a distribuição da população geradora.
+As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_afsa.pdf}
+	\caption{Histograma dos ... do algoritmo AFSA (10 amostras)}
+	\label{fig:hist_afsa}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_cmfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_cmfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_mfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_mfd.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfd}
+\end{figure}
+
+A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de normais.
+Para juntar mais evidências, continuaremos a análise com mais recursos.
+
+Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots} que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
+Quando os dados são plotados dessa forma, uma linha reta indica uma distribuição normal ideal, sendo essa linha plotada para ser usada como referência.
+Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém, espera-se que se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
+As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa.pdf}
+	\caption{Normplot dos ... do algoritmo AFSA (10 amostras)}
+	\label{fig:hist_afsa}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_cmfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_cmfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_mfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_mfd.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_mfd}
+\end{figure}
+
+\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo}
+Podemos observar que os dados não se aproximam tão bem de uma linha reta.
+
+Por último ainda recorremos aos plot de caixa para verificar em particular a simetria dos dados. ...
+
+Para confirmar nossa intuição de que as amostras não são normalmente distribuídas, recorremos a testes de hipótese utilizados para verificação de normalidade.
+Os testes usados foram o de Shapiro-Wilk \cite{shapiro1965analysis} e ...	
+
+\textcolor{red}{As amostras pequenas se mostraram um fator limitante da análise...}
 
 \begin{table}[h]
 	\centering
@@ -219,43 +297,13 @@ A Figura~\ref{fig:boxplot} apresenta uma.....
 	\label{fig:boxplot}
 \end{figure}
 
-As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.....
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/hist_afsa.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_afsa}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/hist_cmfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/hist_mfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/hist_mfd.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_mfd}
-\end{figure}
-
-
 
 
 \textcolor{red}{FAZER UMA CONCLUSÃO DA SEÇÃO
 Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
 
 \subsection{Testes de aderência}
+Dado que os resultados visuais não foram conclusivos o suficiente, especialmente pelo fato de os conjuntos de dados serem pequenos, se torna interessante realizar um teste para verificação da normalidade dos dados...
 
 \textcolor{red}{Escrever uma motivação para o uso dos testes de aderência e uma breve explicação de como funcionam}
 

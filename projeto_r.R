@@ -36,23 +36,23 @@ cat(mfdr_mean, '\t|', mfdr_median, '\t|', mfdr_sd)
 cat(mfd_mean, '\t|', mfd_median, '\t|', mfd_sd)
 cat('__________________________________________')
 
-files_path = paste(getwd(), '/img/', sep = '')
+files_path = paste(getwd(), '/img/', sep = '', col="blue")
 files_path
 # Draw histograms for samples
 pdf(paste(files_path, 'hist_afsa.pdf', sep = ''))
-hist(afsa)
+hist(afsa, col="blue")
 dev.off()
 
 pdf(paste(files_path, 'hist_cmfdr.pdf', sep = ''))
-hist(cmfdr)
+hist(cmfdr, col="blue")
 dev.off()
 
 pdf(paste(files_path, 'hist_mfdr.pdf', sep = ''))
-hist(mfdr)
+hist(mfdr, col="blue")
 dev.off()
 
 pdf(paste(files_path, 'hist_mfd.pdf', sep = ''))
-hist(mfd)
+hist(mfd, col="blue")
 dev.off()
 
 # Draw boxplots for samples
@@ -61,20 +61,28 @@ boxplot(data)
 dev.off()
 
 # Draw normal probability plot for samples
-qqnorm(afsa)
-qqline(afsa)
+pdf(paste(files_path, 'norm_afsa.pdf', sep = ''))
+qqnorm(afsa, col="blue", pch=16)
+qqline(afsa, col="green")
+dev.off()
 
-qqnorm(cmfdr)
-qqline(cmfdr)
+pdf(paste(files_path, 'norm_cmfdr.pdf', sep = ''))
+qqnorm(cmfdr, col="blue", pch=16)
+qqline(cmfdr, col="green")
+dev.off()
 
-qqnorm(mfdr)
-qqline(mfdr)
+pdf(paste(files_path, 'norm_mfdr.pdf', sep = ''))
+qqnorm(mfdr, col="blue", pch=16)
+qqline(mfdr, col="green")
+dev.off()
 
-qqnorm(mfd)
-qqline(mfd)
+pdf(paste(files_path, 'norm_mfd.pdf', sep = ''))
+qqnorm(mfd, col="blue", pch=16)
+qqline(mfd, col="green")
+dev.off()
 
 
-# Shapiro-Wilk test to verify normality of the samples
+# Shapiro-Wilk test to verify normality of the samples (default alpha = 0.05)
 shapiro.test(afsa)
 shapiro.test(cmfdr)
 shapiro.test(mfdr)
@@ -85,7 +93,6 @@ ks.test(afsa, pnorm(10, mean(afsa), sd(afsa)))
 ks.test(cmfdr, pnorm(10, mean(cmfdr), sd(cmfdr)))
 ks.test(mfdr, pnorm(10, mean(mfdr), sd(mfdr)))
 ks.test(mfd, pnorm(10, mean(mfd), sd(mfd)))
-
 
 
 # Hypothesis test for multiple samples
