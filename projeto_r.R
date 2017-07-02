@@ -1,5 +1,5 @@
 # Read CSV into R
-setwd("/Users/rogeriofragoso/Dropbox/PhD/Disciplinas/Estatistica/in1119")
+
 
 path = getwd()
 path = paste(path, 'data', sep='/')
