@@ -1,4 +1,3 @@
-	
 \newcommand{\CLASSINPUTbaselinestretch}{1.0} % baselinestretch
 \newcommand{\CLASSINPUTinnersidemargin}{0.75in} % inner side margin
 \newcommand{\CLASSINPUToutersidemargin}{0.75in} % outer side margin
@@ -93,11 +92,11 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 \section{Introdução}
 \label{sec:intro}
 
-Algoritmos são sequências de instruções bem definidas, porém, suas implementações podem apresentar comportamentos difíceis de serem previstos.
+Algoritmos são sequências de instruções bem definidas, porém suas implementações podem apresentar comportamentos difíceis de serem previstos.
 Seja pelo uso de geração de números pseudo-aleatórios que geram um comportamento não determinístico inerente ao código, ou pelo uso de linguagens de alto nível cuja tradução para linguagem de máquina passa por otimizações e diferentes interações com a arquitetura de destino na qual o algoritmo é executado.
-Sendo assim, a performance de algoritmos de computação em geral é não-determinística e ao analisar comparativamente o desempenho destes algoritmos é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
+Sendo assim, a performance de algoritmos de computação em geral é não-determinística e, ao analisar comparativamente o desempenho destes algoritmos, é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
 
-Este trabalho realiza comparação entre algoritmos de categorização de texto mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
+Este trabalho realiza uma comparação entre algoritmos de categorização de texto, mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
 
 \subsection{Fundamentação teórica}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
@@ -135,7 +134,7 @@ Esta seção descreve as configurações dos experimentos realizados para gerar 
 \subsection{Base de dados}
 \label{sec:bd}
 
-Para a categorização de texto, a base de dados \textit{Reuters 10} foi utilizada.
+Para a categorização de texto, foi utilizada a base de dados \textit{Reuters 10}.
 Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases mais utilizadas em trabalhos de categorização de texto.
 A base é composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135 categorias.
 Entretanto, o subconjunto adotado neste trabalho é composto pelas 10 maiores categorias da base.
@@ -143,11 +142,10 @@ O base de dados \textit{Reuters 10} contém 9.980 documentos e seu vocabulário 
 A base de dados \textit{Reuters 10} também é muito utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
 
 A distribuição dos documentos é bastante desbalanceada, apresentando categorias representando desde 2,3\% até 39\% do tamanho total da base. 
-Nesta base foram aplicados os seguintes procedimentos de pré-processamento: \textit{stemming}, com o algoritmo \textit{Iterated Lovins
-Stemmer}~\cite{lovins1968development}, 
-remoção termos com duas ou menos letras e de \textit{stopwords}.
+Nesta base foram aplicados os seguintes procedimentos de pré-processamento: \textit{stemming}, com o algoritmo \textit{Iterated Lovins Stemmer}~\cite{lovins1968development}, 
+remoção de termos com duas ou menos letras e remoção de \textit{stopwords}.
 
-Vale salientar que  a análise comparativa deste trabalho é realizada sobre o desempenho dos algoritmos (tendo a base citada como entrada) e não sobre características da base em si. O processo de geração das amostras utilizadas na análise estatística é detalhado na Seção~\ref{sec:metodologia}.
+Vale salientar que  a análise comparativa deste trabalho é realizada sobre o desempenho dos algoritmos, tendo a base citada como entrada, e não sobre características da base em si. O processo de geração das amostras utilizadas na análise estatística é detalhado na Seção~\ref{sec:metodologia}.
 
 \subsection{Metodologia}
 \label{sec:metodologia}
@@ -176,7 +174,7 @@ Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
 \label{eq:micro_f1}
 \end{equation}
 
-\noindent onde $\mathcal{P}$ é uma medida chamada precisão e $\mathcal{R}$ é cobertura~\cite{chang2008multilabel}. As fórmulas para calcular a precisão $\mathcal{P}$ e a cobertura $\mathcal{R}$ são exibidas a seguir.
+\noindent onde $\mathcal{P}$ é uma medida de precisão e $\mathcal{R}$ é uma medida de cobertura~\cite{chang2008multilabel}. As fórmulas para calcular a precisão $\mathcal{P}$ e a cobertura $\mathcal{R}$ são exibidas a seguir.
 
 \begin{equation}
 \operatorname{\mathcal{P}} = \frac{\sum_{j=1}^{C}TP_j}{\sum_{j=1}^{C}(TP_j + FP_j)}
@@ -188,7 +186,7 @@ Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
 \label{eq:recall}
 \end{equation}
 
-$TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes à categoria $c_j$, $FP_j$ é a quantidade de instâncias incorretamente rotuladas como pertencentes à categoria $c_j$ e $FN_j$ é a quantidade de instâncias incorretamente rotuladas como não pertencentes à categoria $c_j$. 
+$TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes à categoria $c_j$; $FP_j$ é a quantidade de instâncias incorretamente rotuladas como pertencentes à categoria $c_j$; e $FN_j$ é a quantidade de instâncias incorretamente rotuladas como não pertencentes à categoria $c_j$. 
 
 \section{Análise estatística}
 \label{sec:analise}
@@ -196,11 +194,11 @@ $TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes �
 \subsection{Estatística descritiva}
 \label{sec:estat_descr}
 
-Uma boa prática ao iniciar uma análise de conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para ganhar intuições iniciais sobre o conjunto de interesse \cite{montgomery2010applied}.
+Uma boa prática ao iniciar uma análise de conjunto de dados, a qual é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para se obter intuições iniciais acerca do conjunto de interesse \cite{montgomery2010applied}.
 
-Para ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
-A suposição de normalidade é útil pois se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
-Testes paramétricos possuem maior poder estatístico que permite conclusões mais fortes do que os equivalentes não-paramétricos.
+Para se ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
+A suposição de normalidade é útil pois, se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
+Testes paramétricos possuem maior poder estatístico do que seus equivalentes não-paramétricos, o que nos permite extrair conclusões mais fortes.
 
 Para verificar a normalidade, começamos utilizando ferramentas visuais.
 Histogramas permitem visualizar a distribuição das amostras e consequentemente intuir sobre a distribuição da população geradora.
@@ -248,12 +246,12 @@ As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogra
 	\label{fig:hist_mfd}
 \end{figure}
 
-A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de normais.
+A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de distribuições normais.
 Para juntar mais evidências, continuaremos a análise com mais recursos.
 
-Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots} que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
+Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots}, que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
 Quando os dados são plotados dessa forma, uma linha reta indica uma distribuição normal ideal, sendo essa linha plotada para ser usada como referência.
-Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém, espera-se que se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
+Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém se espera que, se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
 As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 
 \begin{figure}[h]
@@ -291,6 +289,7 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 	\label{fig:hist_mfd}
 \end{figure}
 
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfd.pdf}
@@ -298,7 +297,11 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 	\label{fig:hist_afas_mfd}
 \end{figure}
 
-\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo}
+
+\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo [Lucas: os pontos aparecem pra mim; além disso, minha impressão é que, se tivéssemos mais dados, os pontos se aproximariam da reta. Será que podemos afirmar que não é normal?]}
+
+\textcolor{red}{[ROGÉRIO] Pra mim tb aparece}
+
 Podemos observar que os dados não se aproximam tão bem de uma linha reta.
 
 Por último ainda recorremos aos plot de caixa para verificar em particular a simetria dos dados. ...
