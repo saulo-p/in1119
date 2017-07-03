@@ -1,4 +1,3 @@
-	
 \newcommand{\CLASSINPUTbaselinestretch}{1.0} % baselinestretch
 \newcommand{\CLASSINPUTinnersidemargin}{0.75in} % inner side margin
 \newcommand{\CLASSINPUToutersidemargin}{0.75in} % outer side margin
@@ -93,11 +92,11 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 \section{Introdução}
 \label{sec:intro}
 
-Algoritmos são sequências de instruções bem definidas, porém, suas implementações podem apresentar comportamentos difíceis de serem previstos.
+Algoritmos são sequências de instruções bem definidas, porém suas implementações podem apresentar comportamentos difíceis de serem previstos.
 Seja pelo uso de geração de números pseudo-aleatórios que geram um comportamento não determinístico inerente ao código, ou pelo uso de linguagens de alto nível cuja tradução para linguagem de máquina passa por otimizações e diferentes interações com a arquitetura de destino na qual o algoritmo é executado.
-Sendo assim, a performance de algoritmos de computação em geral é não-determinística e ao analisar comparativamente o desempenho destes algoritmos é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
+Sendo assim, a performance de algoritmos de computação em geral é não-determinística e, ao analisar comparativamente o desempenho destes algoritmos, é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
 
-Este trabalho realiza comparação entre algoritmos de categorização de texto mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
+Este trabalho realiza uma comparação entre algoritmos de categorização de texto, mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
 
 \subsection{Fundamentação teórica}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
@@ -127,7 +126,7 @@ Esta seção descreve as configurações dos experimentos realizados para gerar 
 \subsection{Base de dados}
 \label{sec:bd}
 
-Neste trabalho a base de dados \textit{Reuters 10} foi utilizada.
+Neste trabalho, a base de dados \textit{Reuters 10} foi utilizada.
 Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases mais utilizadas em trabalhos de categorização de texto.
 A base é composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135 categorias.
 Entretanto, neste trabalho foi adotado um subconjunto composto pelas 10 maiores categorias da base.
@@ -136,20 +135,20 @@ A base de dados \textit{Reuters 10} também é bastante utilizada em trabalhos d
 
 A distribuição dos documentos é bastante desbalanceada, apresentando categorias representando desde 2,3\% até 39\% do tamanho total da base. 
 Nesta base foram aplicados os seguintes procedimentos de pré-processamento:
-remoção termos com duas ou menos letras, remoção de \textit{stopwords} e \textit{stemming}, com o algoritmo \textit{Iterated Lovins
+remoção de termos com duas ou menos letras, remoção de \textit{stopwords} e \textit{stemming}, com o algoritmo \textit{Iterated Lovins
 Stemmer}~\cite{lovins1968development}.
 
-Vale salientar que para os propósitos da disciplina o uso de repositórios como base para análise não é permitido, porém, a análise comparativa deste trabalho será realizada sobre o desempenho dos algoritmos (tendo a base citada como entrada) e não sobre características da base em si.
+Vale salientar que, para os propósitos da disciplina, o uso de repositórios como base para análise não é encorajado. Contudo, a análise comparativa deste trabalho será realizada sobre o desempenho dos algoritmos, tendo a base citada como entrada, e não sobre características da base em si.
 
 \subsection{Metodologia}
 \label{sec:metodologia}
 
-Conforme mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de algoritmos de seleção de características para categorização de texto.
-Neste trabalho, a comparação é realizada entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) e \textit{Automatic Feature Subsets Analyzer} (ASFA). A avaliação dos desempenhos dos métodos foi realizada utilizando o algoritmo classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison} e a base de dados \textit{Reuters 10}. Deste modo, a base de dados é pre-processada utilizando-se para cada um dos quatro algoritmos de seleção de carcaterísticas, gerando, assim, quatro versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} é  treinado e testado com cada uma destas quatro versões.
+Conforme mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de desempenho de algoritmos de seleção de características para categorização de texto.
+Neste trabalho, a comparação é realizada entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) e \textit{Automatic Feature Subsets Analyzer} (ASFA). A avaliação dos desempenhos dos métodos foi realizada utilizando o algoritmo classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison} e a base de dados \textit{Reuters 10}. Deste modo, a base de dados é pre-processada para cada um dos quatro algoritmos de seleção de carcaterísticas, gerando, assim, quatro versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} é  treinado e testado com cada uma destas quatro versões.
 
 A validação cruzada estratificada foi utilizada como método para estimativa de desempenho.
 Esta técnica é adotada para avaliar a capacidade de generalização de um modelo a partir de um conjunto de dados.
-Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}.
+Neste trabalho, utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}.
 A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}.
 Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
 O método AFSA requer uma porção dos dados para configuração de seus parâmetreos. Assim, os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para configuração de parâmetros/validação e uma para teste.
@@ -165,7 +164,7 @@ Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
 \label{eq:micro_f1}
 \end{equation}
 
-\noindent onde $\mathcal{P}$ é uma medida chamada precisão e $\mathcal{R}$ é cobertura~\cite{chang2008multilabel}. As fórmulas para calcular a precisão $\mathcal{P}$ e a cobertura $\mathcal{R}$ são exibidas a seguir.
+\noindent onde $\mathcal{P}$ é uma medida de precisão e $\mathcal{R}$ é uma medida de cobertura~\cite{chang2008multilabel}. As fórmulas para calcular a precisão $\mathcal{P}$ e a cobertura $\mathcal{R}$ são exibidas a seguir.
 
 \begin{equation}
 \operatorname{\mathcal{P}} = \frac{\sum_{j=1}^{C}TP_j}{\sum_{j=1}^{C}(TP_j + FP_j)}
@@ -177,18 +176,18 @@ Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
 \label{eq:recall}
 \end{equation}
 
-$TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes à categoria $c_j$, $FP_j$ é a quantidade de instâncias incorretamente rotuladas como pertencentes à categoria $c_j$ e $FN_j$ é a quantidade de instâncias incorretamente rotuladas como não pertencentes à categoria $c_j$. 
+$TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes à categoria $c_j$; $FP_j$ é a quantidade de instâncias incorretamente rotuladas como pertencentes à categoria $c_j$; e $FN_j$ é a quantidade de instâncias incorretamente rotuladas como não pertencentes à categoria $c_j$. 
 
 \section{Análise estatística}
 \label{sec:analise}
 
 \subsection{Estatística descritiva}
 
-Uma boa prática ao iniciar uma análise de conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para ganhar intuições iniciais sobre o conjunto de interesse \cite{montgomery2010applied}.
+Uma boa prática ao iniciar uma análise de conjunto de dados, a qual é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para se obter intuições iniciais acerca do conjunto de interesse \cite{montgomery2010applied}.
 
-Para ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
-A suposição de normalidade é útil pois se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
-Testes paramétricos possuem maior poder estatístico que permite conclusões mais fortes do que os equivalentes não-paramétricos.
+Para se ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
+A suposição de normalidade é útil pois, se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
+Testes paramétricos possuem maior poder estatístico do que seus equivalentes não-paramétricos, o que nos permite extrair conclusões mais fortes.
 
 Para verificar a normalidade, começamos utilizando ferramentas visuais.
 Histogramas permitem visualizar a distribuição das amostras e consequentemente intuir sobre a distribuição da população geradora.
@@ -222,12 +221,12 @@ As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas da
 	\label{fig:hist_mfd}
 \end{figure}
 
-A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de normais.
+A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de distribuições normais.
 Para juntar mais evidências, continuaremos a análise com mais recursos.
 
-Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots} que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
+Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots}, que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
 Quando os dados são plotados dessa forma, uma linha reta indica uma distribuição normal ideal, sendo essa linha plotada para ser usada como referência.
-Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém, espera-se que se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
+Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém se espera que, se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
 As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 
 \begin{figure}[h]
@@ -258,7 +257,7 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 	\label{fig:hist_mfd}
 \end{figure}
 
-\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo}
+\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo [Lucas: os pontos aparecem pra mim; além disso, minha impressão é que, se tivéssemos mais dados, os pontos se aproximariam da reta. Será que podemos afirmar que não é normal?]}
 Podemos observar que os dados não se aproximam tão bem de uma linha reta.
 
 Por último ainda recorremos aos plot de caixa para verificar em particular a simetria dos dados. ...
