@@ -101,9 +101,17 @@ Este trabalho realiza comparação entre algoritmos de categorização de texto 
 
 \subsection{Fundamentação teórica}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
-\textcolor{red}{Nesta seção, apresentar o problema de seleção de características, categorização de textos e os conceitos básicos necessários para o entendimento do trabalho.}
 
-Esta seção apresentou conceitos básicos de categorização de textos e seleção de características. 
+Na abordagem de aprendizagem de máquina, uma instância é representada como um vetor composto por pares de característica e valor. Uma abordagem comum para a representação de textos na forma de vetores de características é a técnica conhecida como \emph{Bag of Words} (BoW)~\cite{guyon2003introduction}. Nela, um texto é tratado como um conjunto de palavras, sem considerar gramática ou ordem de ocorrência das palavras no texto. Cada palavra do vocabulário da base de dados é considerada uma característica e é associada à frequência desta palavra no documento. Ou seja, o tamanho do vocabulário da base de dados define a dimensionalidade dos vetores. Desta forma, em uma base de dados de tamanho médio, é comum que os vetores de características contenham dezenas de milhares de dimensões~\cite{gabrilovich2004text}. Entretanto, a maior parte deestas características é irrelevante ou redundante. A alta dimensionalidade pode tornar a categorização de textos muito dispendiosa em termos de memória e tempo de execução. Adicionalmente, este grande número de características pode impactar negativamente no desempenho de classificação, especialmente em bases de dados com um número pequeno de instâncias em relação ao número de características, fenômeno conhecido como ``praga da dimensionalidade''. Como muitas das características são irrelevantes para a categorização, estes problemas podem ser tratados através da restrição da quantidade de características do conjunto de dados. Esta abordagem é conhecida como Redução de Dimensionalidade (DR, do inglês \emph{Dimensionality Reduction}).
+
+Uma técnica de DR muito utilizada é a seleção de características. Nesta abordagem, o conjunto final é formado por parte das características do conjunto original. A utilização de métodos de filtragem é a técnica de FS considerada mais adequada para problemas de TC, devido ao custo computacional ser bem mais baixo que o de outras técnicas, como métodos \emph{wrapper}. Métodos de filtragem realizam um ordenamento das características através do uso de algoritmos determinísticos e métricas estatísticas, conhecidas com funções de avaliação de características (FEF, do inglês \emph{Feature Evaluation Function}). Após o ordenamento, uma quantidade, estabelecida pelo usuário, de características é selecionada para a formação do novo subconjunto.
+
+\subsection{Métodos de seleção de características}
+\label{sec:metodos}
+
+\textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} são métodos de seleção de características para categorização de texto. Estes métodos necessitam requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância. A escolha de um bom valor para este parâmetro pode ser um trabalho demorado e exaustivo. Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto como para ser usado conjuntamente com um dos três métodos: MFD, MFDR ou cMFDR. O objetivo do AFSA é prover, para estes métodos, um valor para o parâmetro $f$ de forma automática.
+
+Esta seção apresentou conceitos básicos de categorização de textos e seleção de características e introduziu os quatro métodos de seleção de características que são avaliados no trabalho. 
 O restante do trabalho é organizado como segue: 
 A Seção \ref{sec:objetivo} apresenta o objetivo do presente trabalho. 
 Na Seção \ref{sec:exp} são detalhadas as configurações dos experimentos, incluindo descrição da base de dados, os algoritmos de interesse e as hipóteses a serem verificadas sobre os dados. 
@@ -113,8 +121,8 @@ Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
 \section{Objetivo}
 \label{sec:objetivo}
 
-O objetivo do presente trabalho é avaliar e comparar o desempenho de quatro métodos de seleção de características usados em categorização de texto.
-Esta análise comparativa permite determinar se os algoritmos possuem desempenhos significativamente diferentes e, em caso positivo, determinar quais deles se destacam dos demais.
+O objetivo da presente pesquisa é verificar se o método AFSA é capaz de prover uma configuração para MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é alterado quando estes métodos são usados conjuntamente com AFSA.
+Esta análise comparativa visa determinar se os algoritmos possuem desempenhos significativamente diferentes e, em caso positivo, determinar qual apresenta desempenho superior.
 
 %Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal.
 %Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
@@ -127,35 +135,38 @@ Esta seção descreve as configurações dos experimentos realizados para gerar 
 \subsection{Base de dados}
 \label{sec:bd}
 
-Neste trabalho a base de dados \textit{Reuters 10} foi utilizada.
+Para a categorização de texto, a base de dados \textit{Reuters 10} foi utilizada.
 Esta base de dados é um subconjunto da coleção \textit{Reuters-21578}~\footnote{Disponível em http://disi.unitn.it/moschitti/corpora.htm.}, que é uma das bases mais utilizadas em trabalhos de categorização de texto.
 A base é composta por documentos coletados do \textit{Reuters newswire} de 1987 e apresenta 135 categorias.
-Entretanto, neste trabalho foi adotado um subconjunto composto pelas 10 maiores categorias da base.
-O subconjunto \textit{Reuters 10} contém 9.980 documentos e seu vocabulário abarca 10.987 termos.
-A base de dados \textit{Reuters 10} também é bastante utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
+Entretanto, o subconjunto adotado neste trabalho é composto pelas 10 maiores categorias da base.
+O base de dados \textit{Reuters 10} contém 9.980 documentos e seu vocabulário abarca 10.987 termos.
+A base de dados \textit{Reuters 10} também é muito utilizada em trabalhos de categorização de texto~\cite{chang2008multilabel,chen2009feature,yang2011new}. 
 
 A distribuição dos documentos é bastante desbalanceada, apresentando categorias representando desde 2,3\% até 39\% do tamanho total da base. 
-Nesta base foram aplicados os seguintes procedimentos de pré-processamento:
-remoção termos com duas ou menos letras, remoção de \textit{stopwords} e \textit{stemming}, com o algoritmo \textit{Iterated Lovins
-Stemmer}~\cite{lovins1968development}.
+Nesta base foram aplicados os seguintes procedimentos de pré-processamento: \textit{stemming}, com o algoritmo \textit{Iterated Lovins
+Stemmer}~\cite{lovins1968development}, 
+remoção termos com duas ou menos letras e de \textit{stopwords}.
 
-Vale salientar que para os propósitos da disciplina o uso de repositórios como base para análise não é permitido, porém, a análise comparativa deste trabalho será realizada sobre o desempenho dos algoritmos (tendo a base citada como entrada) e não sobre características da base em si.
+Vale salientar que  a análise comparativa deste trabalho é realizada sobre o desempenho dos algoritmos (tendo a base citada como entrada) e não sobre características da base em si. O processo de geração das amostras utilizadas na análise estatística é detalhado na Seção~\ref{sec:metodologia}.
 
 \subsection{Metodologia}
 \label{sec:metodologia}
 
-Conforme mencionado na Seção \ref{sec:objetivo}, estamos interessados na comparação de algoritmos de seleção de características para categorização de texto.
-Neste trabalho, a comparação é realizada entre os algoritmos \textit{Maximum Features per Document} (MFD), \textit{Maximum Features per Document-Reduced} (MFDR), \textit{Category-dependent Maximum Features per Document-Reduced} (cMFDR) e \textit{Automatic Feature Subsets Analyzer} (ASFA). A avaliação dos desempenhos dos métodos foi realizada utilizando o algoritmo classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison} e a base de dados \textit{Reuters 10}. Deste modo, a base de dados é pre-processada utilizando-se para cada um dos quatro algoritmos de seleção de carcaterísticas, gerando, assim, quatro versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} é  treinado e testado com cada uma destas quatro versões.
+Conforme mencionado na Seção \ref{sec:objetivo}, esta pesquisa visa realizar uma comparação de desempenho de algoritmos de seleção de características para categorização de texto.
+Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos MFD, MFDR e cMFDR (conforme descrito na Seção~\ref{sec:metodos}. O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
+
+O desempenho de um método de seleção de características pode ser auferido em termos de redução de dimensionalidade (tamanho do vetor final de características), tempo de execução e do desempenho de classificação atingido com o vetor de caracter'siticas resultante do processo de seleção. Neste trabalho, a avaliação dos desempenhos dos métodos levou em conta o desempenho de classificação sobre a base de dados resultante do processo de seleção de características. O algoritmo de aprendizagem de máquina empregado para a avaliação dos métodos foi classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison}. 
+
+A base de dados \textit{Reuters 10} foi pré-processada utilizando cada um dos seis algoritmos de seleção de carcaterísticas (MFD, MFDR cMFDR e a combinação de cada um destes com AFSA), gerando, assim, seis versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} foi treinado e testado com cada uma destas seis versões.
 
 A validação cruzada estratificada foi utilizada como método para estimativa de desempenho.
 Esta técnica é adotada para avaliar a capacidade de generalização de um modelo a partir de um conjunto de dados.
-Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}.
-A avaliação final é dada pela média das medidas obtidas em cada uma das 10 execuções~\cite{kohavi1995study}.
+Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}~\cite{kohavi1995study}.
+
 Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
 O método AFSA requer uma porção dos dados para configuração de seus parâmetreos. Assim, os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para configuração de parâmetros/validação e uma para teste.
-
-Assim, temos dez medidas de desempenho para cada um dos quatro métodos de seleção de características avaliados.
-Estes dados de desempenho correspondem às entradas para as análises estatísticas realizadas neste trabalho.
+Deste modo, ao final deste processo, temos dez medidas de desempenho para cada um dos seis métodos de seleção de características avaliados.
+Estes dados de desempenho correspondem às amostras que são entradas para as análises estatísticas realizadas neste trabalho.
 
 A medida de desempenho utilizada nos experimentos foi \textit{Micro-F1}.
 Seu cálculo é dado pela Eq.~\ref{eq:micro_f1}.
@@ -183,6 +194,7 @@ $TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes �
 \label{sec:analise}
 
 \subsection{Estatística descritiva}
+\label{sec:estat_descr}
 
 Uma boa prática ao iniciar uma análise de conjunto de dados, e que é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para ganhar intuições iniciais sobre o conjunto de interesse \cite{montgomery2010applied}.
 
@@ -192,13 +204,13 @@ Testes paramétricos possuem maior poder estatístico que permite conclusões ma
 
 Para verificar a normalidade, começamos utilizando ferramentas visuais.
 Histogramas permitem visualizar a distribuição das amostras e consequentemente intuir sobre a distribuição da população geradora.
-As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.
+As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa.pdf}
+	\includegraphics[width=\linewidth]{img/bluehist_afsa_cmfdr.pdf}
 	\caption{Histograma dos ... do algoritmo AFSA (10 amostras)}
-	\label{fig:hist_afsa}
+	\label{fig:hist_afsa_cmfdr}
 \end{figure}
 
 \begin{figure}[h]
@@ -210,9 +222,23 @@ As Figuras~\ref{fig:hist_afsa} a~\ref{fig:hist_mfd} apresentam os histogramas da
 
 \begin{figure}[h]
 	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_afsa_mfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
 	\includegraphics[width=\linewidth]{img/bluehist_mfdr.pdf}
 	\caption{\textcolor{red}{Escrever uma descrição}.}
 	\label{fig:hist_mfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfd.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_afsa_mfd}
 \end{figure}
 
 \begin{figure}[h]
@@ -232,9 +258,9 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa.pdf}
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa_cmfdr.pdf}
 	\caption{Normplot dos ... do algoritmo AFSA (10 amostras)}
-	\label{fig:hist_afsa}
+	\label{fig:hist_afsa_cmfdr}
 \end{figure}
 
 \begin{figure}[h]
@@ -242,6 +268,13 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 	\includegraphics[width=\linewidth]{img/bluenorm_cmfdr.pdf}
 	\caption{\textcolor{red}{Escrever uma descrição}.}
 	\label{fig:hist_cmfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfdr.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_afsa_mfdr}
 \end{figure}
 
 \begin{figure}[h]
@@ -258,6 +291,13 @@ As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
 	\label{fig:hist_mfd}
 \end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfd.pdf}
+	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\label{fig:hist_afas_mfd}
+\end{figure}
+
 \textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo}
 Podemos observar que os dados não se aproximam tão bem de uma linha reta.
 
@@ -272,13 +312,15 @@ Os testes usados foram o de Shapiro-Wilk \cite{shapiro1965analysis} e ...
 	\centering
 	\caption{Estatística descritiva}
 	\label{tab:est_descr}
-	\begin{tabular}{cccc}
+	\begin{tabular}{c|ccc}
 		Método    & Média  & Mediana & Desv. Padrão  \\
 		\hline
-		AFSA&		81.05262 	& 80.9594 	& 0.9634384 \\
-		cMFDR&      81.39266 	& 81.38469 	& 1.027409 \\
-		MFDR& 		79.03808 	& 79.05812 	& 1.119577 \\
-		MFD&     	81.93872 	& 81.91752 	& 1.029598 \\
+		AFSA cMFDR & 81.58186 	& 81.50202 	& 0.9741085 \\
+		cMFDR & 81.3405 	& 81.3004 	& 0.8899744 \\
+		AFSA MFDR & 80.16942 	& 80.23216 	& 1.109113 \\
+		MFDR & 80.06198 	& 79.94699 	& 1.052274 \\
+		AFSA MFD & 81.72414 	& 81.95565 	& 0.9268894 \\
+		MFD & 81.78289 	& 81.95565 	& 0.824661 \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -292,7 +334,7 @@ A Figura~\ref{fig:boxplot} apresenta uma.....
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/boxplot.pdf}
+	\includegraphics[width=\linewidth]{img/blueboxplot.pdf}
 	\caption{\textcolor{red}{Escrever uma descrição}.}
 	\label{fig:boxplot}
 \end{figure}
@@ -303,37 +345,35 @@ A Figura~\ref{fig:boxplot} apresenta uma.....
 Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
 
 \subsection{Testes de aderência}
-Dado que os resultados visuais não foram conclusivos o suficiente, especialmente pelo fato de os conjuntos de dados serem pequenos, se torna interessante realizar um teste para verificação da normalidade dos dados...
 
-\textcolor{red}{Escrever uma motivação para o uso dos testes de aderência e uma breve explicação de como funcionam}
-
-A Tabela~\ref{tab:aderencia} exibe os resultados dos testes Shapiro-Wilk e Kolmogrov-Smirnov para os quatro métodos.
+Uma maneira mais formal de verificar se as amostras seguem uma distribuição normal é com o uso de testes de aderência. Nesta pesquisa, foram executados os testes Shapiro-Wilk~\cite{shapiro1965analysis}, Anderson-Darling~\cite{anderson1954test} e Cramer-von Mises~\cite{durbin1972components}. Os resultados dos testes para cada amostra são apresentados na tabela~\ref{tab:aderencia}.
 
 \begin{table}[h]
 	\centering
-	\caption{Resultados dos testes de aderência}
+	\caption{Resultados dos testes de aderência.}
 	\label{tab:aderencia}
 	\begin{tabular}{c|ccc}
 		\hline
-		& \multicolumn{2}{c}{p-value}      \\
-		\cline{2-3}
-		& Shapiro-Wilk & Kolmogrov-Smirnov \\
+		& \multicolumn{3}{c}{\textit{p-value}}      \\
+		\cline{2-4}
+		& Shapiro-Wilk & Anderson-Darling  & Cramer-von Mises\\
 		\hline
-		AFSA  & 0.2353       & 0.1818            \\
-		cMFDR & 0.3107       & 0.1818            \\
-		MFDR  & 0.6773       & 0.1818            \\
-		MFD   & 0.3597       &  0.1818               \\
+		AFSA CMFDR  	& 0.7513       & 0.6731           & 0.7485 \\
+		cMFDR 				 & 0.9010       & 0.8626          & 0.8632 \\
+		AFSA MFDR  		 & 0.8803       & 0.8929          & 0.8709 \\
+		MFDR  				 & 0.6160       & 0.4717            & 0.4513 \\
+		AFSA MFD   		  & 0.1950       &  0.2553          & 0.3081 \\
+		MFD   				  & 0.8890       &  0.7704          & 0.7267 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-\textcolor{red}{Escrever sobre os resultados do test Shapiro-Wilk}
+Consideramos que uma amostra não segue uma distribuição normal caso o \textit{p-value} seja menor que 0.05. Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, reforçando a impressão obtida da análise dos valores das médias e medianas das amostras~\ref{sec:estat_descr}. Porém é importante salientar que a eficiências de testes de aderência pode ser prejudicada quando as amostras são pequenas.Adicionalmente, a análise dos histogramas e dos boxplots (da maioria das amostras) dão indícios de que as amostras não seguem uma distribuição normal. Por estas razões, concluímos que, com os dados disponíveis, não temos segurança em afirmar que as amostras seguem uma distribuição normal. Diante disto, utilizamos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
 
-\textcolor{red}{Escrever sobre os resultados do test Kolmogrov-Smirnov}
 
-\subsection{Testes de hipóteses}
+\subsection{Resultados}
 
-\textcolor{red}{Ainda não executei os testes de hipóteses}
+Diante 
 
 \section{Conclusão}
 \label{sec:conclusao}
