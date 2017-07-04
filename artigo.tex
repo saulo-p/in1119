@@ -73,7 +73,7 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 
 \begin{abstract}
 	%\boldmath
-Este trabalho realiza uma análise estatística sobre desempenho de métodos de seleção de características para categorização de texto. Os métodos MFD, MFDR e cMFDR são analisados com objetivo de verificar se a configuração paramétrica automática, fornecida pelo método AFSA, impacta no desempenho de classificação dos métodos. Análises estatísticas não foram conclusivas quanto à aderência das amostras a uma distrbuição normal. Deste modo, o teste de hipóteses não-paramétrico Wilcoxon (teste de sinais com postos).
+Este trabalho realiza uma análise estatística sobre desempenho de métodos de seleção de características para categorização de texto. Os métodos MFD, MFDR e cMFDR são analisados com objetivo de verificar se a configuração paramétrica automática, fornecida pelo método AFSA, impacta no desempenho de classificação dos métodos. Análises estatísticas não foram conclusivas quanto à aderência das amostras a uma distrbuição normal. Deste modo, foi utilizado o teste de hipóteses não-paramétrico de Wilcoxon (teste de sinais com postos).
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -92,9 +92,9 @@ Este trabalho realiza uma análise estatística sobre desempenho de métodos de 
 \section{Introdução}
 \label{sec:intro}
 
-Um grande problema dos algoritmos de seleção de características é a identificação do número ideal de características a serem selecionadas. Um número pequeno pode acarretar em baixo desempenho de classificação. Um número grande, por outro lado, pode levar a um alto custo computacional. Normalmente este número é encontrado de maneira empíraca. Entretanto, problemas de categorização de texto costumam ser de alta dimensionalidade. Assim, o processo de encontrar o número ideal de características a serem selecionadas pode ser lento e custoso.
+Um grande problema dos algoritmos de seleção de características é a identificação do número ideal de características a serem selecionadas. Um número pequeno pode acarretar em baixo desempenho de classificação. Um número grande, por outro lado, pode levar a um alto custo computacional. Normalmente este número é encontrado de maneira empírica. Entretanto, problemas de categorização de texto costumam ser de alta dimensionalidade. Assim, o processo de encontrar o número ideal de características a serem selecionadas pode ser lento e custoso.
 
-Os métodos de seleção de características \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} introduzem uma abordagem de seleção local de características,  o que facilita a parametrização da quantidade de características a serem selecionadas. Em um estudo~\cite{mfd2014}, verificou-se que, com a abordagem tradicional de seleção de características, é necessário avaliar subconjuntos desde 11 características até mais de 5000. Com a abordagem de seleção local, proposta nos métodos aupracitados, o melhor desempenho de classificação é encontrado em um espaço de 10 valores para seu único parâmetro ($f$). 
+Os métodos de seleção de características \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} introduzem uma abordagem de seleção local de características,  o que facilita a parametrização da quantidade de características a serem selecionadas. Em um estudo~\cite{mfd2014}, verificou-se que, com a abordagem tradicional de seleção de características, é necessário avaliar subconjuntos desde 11 características até mais de 5000. Com a abordagem de seleção local, proposta nos métodos supracitados, o melhor desempenho de classificação é encontrado em um espaço de 10 valores para seu único parâmetro ($f$). 
 
 Todavia, ainda assim, esta parametrização necessita de uma interação manual. Assim, dependendo do tipo de aplicação em que será usado o método de seleção de características, esta parametrização pode ter custos indesejáveis. O método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para tratar deste problema. AFSA realiza automaticamente a parametrização dos métodos MFD, MFDR e cMFDR.
 
@@ -166,7 +166,7 @@ Vale salientar que  a análise comparativa deste trabalho é realizada sobre o d
 \label{sec:metodologia}
 
 Conforme mencionado na Seção \ref{sec:objetivo}, esta pesquisa visa realizar uma comparação de desempenho de algoritmos de seleção de características para categorização de texto.
-Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos MFD, MFDR e cMFDR (conforme descrito na Seção~\ref{sec:metodos}. O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
+Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos MFD, MFDR e cMFDR (conforme descrito na Seção~\ref{sec:metodos}). O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
 
 O desempenho de um método de seleção de características pode ser auferido em termos de redução de dimensionalidade (tamanho do vetor final de características), tempo de execução e do desempenho de classificação atingido com o vetor de características resultante do processo de seleção. Neste trabalho, a avaliação dos desempenhos dos métodos levou em conta o desempenho de classificação sobre a base de dados resultante do processo de seleção de características. O algoritmo de aprendizagem de máquina empregado para a avaliação dos métodos foi classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison}. 
 
@@ -216,7 +216,7 @@ A suposição de normalidade é útil pois, se esta for plausível, podemos apli
 Testes paramétricos possuem maior poder estatístico do que seus equivalentes não-paramétricos, o que nos permite extrair conclusões mais fortes.
 
 Para verificar a normalidade, começamos utilizando recursos visuais.
-Histogramas permitem visualizar a disposição das amostras e consequentemente intuir sobre a distribuição da população geradora.
+Histogramas permitem visualizar a disposição das amostras e, consequentemente, intuir sobre a distribuição da população geradora.
 As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogramas com os desempenhos de classificação de cada algoritmo  nas suas versões combinadas com o ASFA e sem o mesmo.
 
 \begin{figure}[h]
@@ -257,7 +257,7 @@ As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogra
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/bluehist_afsa_cmfdr.pdf}
-	\caption{Histograma do desempenho de classificação do cMFDR (10 amostras).}
+	\caption{Histograma do desempenho de classificação do cMFDR com AFSA (10 amostras).}
 	\label{fig:hist_afsa_cmfdr}
 \end{figure}
 
@@ -313,7 +313,7 @@ As Figuras \ref{fig:norm_mfd} a \ref{fig:norm_afsa_cmfdr} mostram os normplots d
 
 Podemos observar que o fitting em geral não foi tão próximo quanto se poderia esperar.
 Além disso, observa-se que nos valores mais extremos da distribuição, a aproximação degrada ainda mais (salvo pelo exemplo na Figura \ref{fig:norm_afsa_mfdr}).
-\textcolor{green}{Isso pode indicar que estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas da distribuição não são parecidas com a de uma normal}.
+\textcolor{green}{Isso pode indicar que, estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas da distribuição não são parecidas com a de uma normal}.
 
 \textcolor{red}{Não vejo necessidade de apresentar este aqui. Acho que tem muita informação já. Opinem}
 Ainda recorremos aos diagramas de caixa (Figura \ref{fig:boxplot}) como um último recurso visual. 
@@ -387,17 +387,17 @@ Os resultados dos testes para cada amostra são apresentados na tabela~\ref{tab:
 
 Consideramos que uma amostra não segue uma distribuição normal caso o \textit{p-value} seja menor que 0.05.
 Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, reforçando a impressão obtida da análise dos valores das médias e medianas das amostras~\ref{sec:estat_descr}.
-Porém é importante salientar que a eficiências de testes de aderência (não paramétricos) é muito prejudicada quando as amostras são pequenas, como no nosso caso.
+Porém, é importante salientar que a eficiências de testes de aderência (não paramétricos) é muito prejudicada quando as amostras são pequenas, como no caso em análise.
 Adicionalmente, a análise dos histogramas, normplots e dos boxplots (da maioria das amostras) dão indícios de que as amostras não seguem uma distribuição normal.
 Por estas razões, concluímos que, com os dados disponíveis, não temos segurança em afirmar que as amostras seguem uma distribuição normal.
 Diante disto, utilizaremos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
 
 \subsection{Resultados}
 
-Depois de avaliar as distribuições das amostras, optamos pelo caminho mais seguro que consiste na comparação dos pares de métodos por testes não paramétricos. 
+Depois de avaliar as distribuições das amostras, optamos pelo caminho mais seguro, que consiste na comparação dos pares de métodos por testes não paramétricos. 
 Como as comparações a serem executadas são entre pares de algoritmos, optamos pelo teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
 
-Estabelecemos a hipótese nula de que os desempenhos dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é que os desempenhos são diferentes. Com esta hipótese, buscamos averiguar se a configuração paramétrica realizada automáticamente por AFSA apresenta algum impacto no desempenho de classificação.
+Estabelecemos a hipótese nula de que os desempenhos dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é que os desempenhos são diferentes. Com esta hipótese, buscamos averiguar se a configuração paramétrica realizada automaticamente por AFSA apresenta algum impacto no desempenho de classificação.
 
 Os resultados dos testes são apresentados na Tabela 
 \ref{tab:rank_sum}.
