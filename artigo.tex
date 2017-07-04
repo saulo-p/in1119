@@ -96,21 +96,30 @@ Algoritmos são sequências de instruções bem definidas, porém suas implement
 Seja pelo uso de geração de números pseudo-aleatórios que geram um comportamento não determinístico inerente ao código, ou pelo uso de linguagens de alto nível cuja tradução para linguagem de máquina passa por otimizações e diferentes interações com a arquitetura de destino na qual o algoritmo é executado.
 Sendo assim, a performance de algoritmos de computação em geral é não-determinística e, ao analisar comparativamente o desempenho destes algoritmos, é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
 
-Este trabalho realiza uma comparação entre algoritmos de categorização de texto, mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
+Este trabalho realiza uma comparação entre algoritmos de categorização de texto (mais especificamente sobre a etapa de extração de características), mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
 
 \subsection{Fundamentação teórica}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
 
-Na abordagem de aprendizagem de máquina, uma instância é representada como um vetor composto por pares de característica e valor. Uma abordagem comum para a representação de textos na forma de vetores de características é a técnica conhecida como \emph{Bag of Words} (BoW)~\cite{guyon2003introduction}. Nela, um texto é tratado como um conjunto de palavras, sem considerar gramática ou ordem de ocorrência das palavras no texto. Cada palavra do vocabulário da base de dados é considerada uma característica e é associada à frequência desta palavra no documento. Ou seja, o tamanho do vocabulário da base de dados define a dimensionalidade dos vetores. Desta forma, em uma base de dados de tamanho médio, é comum que os vetores de características contenham dezenas de milhares de dimensões~\cite{gabrilovich2004text}. Entretanto, a maior parte deestas características é irrelevante ou redundante. A alta dimensionalidade pode tornar a categorização de textos muito dispendiosa em termos de memória e tempo de execução. Adicionalmente, este grande número de características pode impactar negativamente no desempenho de classificação, especialmente em bases de dados com um número pequeno de instâncias em relação ao número de características, fenômeno conhecido como ``praga da dimensionalidade''. Como muitas das características são irrelevantes para a categorização, estes problemas podem ser tratados através da restrição da quantidade de características do conjunto de dados. Esta abordagem é conhecida como Redução de Dimensionalidade (DR, do inglês \emph{Dimensionality Reduction}).
+Na abordagem de aprendizagem de máquina, uma instância é representada como um vetor composto por pares de característica e valor.
+Uma abordagem comum para a representação de textos na forma de vetores de características é a técnica conhecida como \emph{Bag of Words} (BoW)~\cite{guyon2003introduction}. Nela, um texto é tratado como um conjunto de palavras, sem considerar gramática ou ordem de ocorrência das palavras no texto.
+Cada palavra do vocabulário da base de dados é considerada uma característica e é associada à frequência desta palavra no documento. Ou seja, o tamanho do vocabulário da base de dados define a dimensionalidade dos vetores.
+Desta forma, em uma base de dados de tamanho médio, é comum que os vetores de características contenham dezenas de milhares de dimensões~\cite{gabrilovich2004text}. Entretanto, a maior parte destas características é irrelevante ou redundante. A alta dimensionalidade pode tornar a categorização de textos muito dispendiosa em termos de memória e tempo de execução.
+Adicionalmente, este grande número de características pode impactar negativamente no desempenho de classificação, especialmente em bases de dados com um número pequeno de instâncias em relação ao número de características, fenômeno conhecido como ``praga da dimensionalidade''.
+Como muitas das características são irrelevantes para a categorização, estes problemas podem ser tratados através da restrição da quantidade de características do conjunto de dados. Esta abordagem é conhecida como Redução de Dimensionalidade (DR, do inglês \emph{Dimensionality Reduction}).
 
 Uma técnica de DR muito utilizada é a seleção de características. Nesta abordagem, o conjunto final é formado por parte das características do conjunto original. A utilização de métodos de filtragem é a técnica de FS considerada mais adequada para problemas de TC, devido ao custo computacional ser bem mais baixo que o de outras técnicas, como métodos \emph{wrapper}. Métodos de filtragem realizam um ordenamento das características através do uso de algoritmos determinísticos e métricas estatísticas, conhecidas com funções de avaliação de características (FEF, do inglês \emph{Feature Evaluation Function}). Após o ordenamento, uma quantidade, estabelecida pelo usuário, de características é selecionada para a formação do novo subconjunto.
 
 \subsection{Métodos de seleção de características}
 \label{sec:metodos}
 
-\textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} são métodos de seleção de características para categorização de texto. Estes métodos necessitam requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância. A escolha de um bom valor para este parâmetro pode ser um trabalho demorado e exaustivo. Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto como para ser usado conjuntamente com um dos três métodos: MFD, MFDR ou cMFDR. O objetivo do AFSA é prover, para estes métodos, um valor para o parâmetro $f$ de forma automática.
+\textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} são métodos de seleção de características para categorização de texto.
+Estes métodos requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância.
+A escolha de um bom valor para este parâmetro pode ser um trabalho demorado e exaustivo.
+Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para ser usado conjuntamente com um dos três métodos: MFD, MFDR ou cMFDR.
+O objetivo do AFSA é prover, para estes métodos, um valor para o parâmetro $f$ de forma automática.
 
-Esta seção apresentou conceitos básicos de categorização de textos e seleção de características e introduziu os quatro métodos de seleção de características que são avaliados no trabalho. 
+Esta seção apresentou conceitos básicos de categorização de textos e seleção de características e introduziu os métodos de seleção de características que são avaliados no trabalho. 
 O restante do trabalho é organizado como segue: 
 A Seção \ref{sec:objetivo} apresenta o objetivo do presente trabalho. 
 Na Seção \ref{sec:exp} são detalhadas as configurações dos experimentos, incluindo descrição da base de dados, os algoritmos de interesse e as hipóteses a serem verificadas sobre os dados. 
@@ -120,7 +129,7 @@ Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
 \section{Objetivo}
 \label{sec:objetivo}
 
-O objetivo da presente pesquisa é verificar se o método AFSA é capaz de prover uma configuração para MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é alterado quando estes métodos são usados conjuntamente com AFSA.
+O objetivo desta pesquisa é verificar se o método AFSA é capaz de prover uma configuração para MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é alterado quando estes métodos são usados conjuntamente com AFSA.
 Esta análise comparativa visa determinar se os algoritmos possuem desempenhos significativamente diferentes e, em caso positivo, determinar qual apresenta desempenho superior.
 
 %Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal.
@@ -153,7 +162,7 @@ Vale salientar que  a análise comparativa deste trabalho é realizada sobre o d
 Conforme mencionado na Seção \ref{sec:objetivo}, esta pesquisa visa realizar uma comparação de desempenho de algoritmos de seleção de características para categorização de texto.
 Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos MFD, MFDR e cMFDR (conforme descrito na Seção~\ref{sec:metodos}. O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
 
-O desempenho de um método de seleção de características pode ser auferido em termos de redução de dimensionalidade (tamanho do vetor final de características), tempo de execução e do desempenho de classificação atingido com o vetor de caracter'siticas resultante do processo de seleção. Neste trabalho, a avaliação dos desempenhos dos métodos levou em conta o desempenho de classificação sobre a base de dados resultante do processo de seleção de características. O algoritmo de aprendizagem de máquina empregado para a avaliação dos métodos foi classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison}. 
+O desempenho de um método de seleção de características pode ser auferido em termos de redução de dimensionalidade (tamanho do vetor final de características), tempo de execução e do desempenho de classificação atingido com o vetor de características resultante do processo de seleção. Neste trabalho, a avaliação dos desempenhos dos métodos levou em conta o desempenho de classificação sobre a base de dados resultante do processo de seleção de características. O algoritmo de aprendizagem de máquina empregado para a avaliação dos métodos foi classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison}. 
 
 A base de dados \textit{Reuters 10} foi pré-processada utilizando cada um dos seis algoritmos de seleção de carcaterísticas (MFD, MFDR cMFDR e a combinação de cada um destes com AFSA), gerando, assim, seis versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} foi treinado e testado com cada uma destas seis versões.
 
@@ -196,144 +205,113 @@ $TP_j$ é a quantidade de instâncias corretamente rotuladas como pertencentes �
 
 Uma boa prática ao iniciar uma análise de conjunto de dados, a qual é sugerida por muitos autores, é o uso de técnicas de estatística descritiva para se obter intuições iniciais acerca do conjunto de interesse \cite{montgomery2010applied}.
 
-Para se ter uma indicação sobre os tipos de testes que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram os dados aparentam normalidade.
+Para se ter uma indicação sobre os tipos de testes de hipótese que podem ser executados sobre os dados, é interessante verificar se as distribuições que geram as amostras apresentam normalidade.
 A suposição de normalidade é útil pois, se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
 Testes paramétricos possuem maior poder estatístico do que seus equivalentes não-paramétricos, o que nos permite extrair conclusões mais fortes.
 
-Para verificar a normalidade, começamos utilizando ferramentas visuais.
-Histogramas permitem visualizar a distribuição das amostras e consequentemente intuir sobre a distribuição da população geradora.
-As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogramas das amostras.
+Para verificar a normalidade, começamos utilizando recursos visuais.
+Histogramas permitem visualizar a disposição das amostras e consequentemente intuir sobre a distribuição da população geradora.
+As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogramas com os desempenhos de classificação de cada algoritmo  nas suas versões combinadas com o ASFA e sem o mesmo.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa_cmfdr.pdf}
-	\caption{Histograma dos ... do algoritmo AFSA (10 amostras)}
-	\label{fig:hist_afsa_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_cmfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_afsa_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_mfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_mfdr}
+	\includegraphics[width=\linewidth]{img/bluehist_mfd.pdf}
+	\caption{Histograma do desempenho de classificação do MFD (10 amostras).}
+	\label{fig:hist_mfd}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfd.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\caption{Histograma do desempenho de classificação do MFD com AFSA (10 amostras).}
 	\label{fig:hist_afsa_mfd}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_mfd.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_mfd}
-\end{figure}
-
-A julgar pelos histogramas apresentados, não temos motivo para acreditar que tais amostras sejam provenientes de distribuições normais.
-Para juntar mais evidências, continuaremos a análise com mais recursos.
-
-Outra ferramenta visual útil é o \textcolor{red}{plot de probabilidade normal} ou \textit{normplots}, que permite verificar o quão bem os dados podem ser ajustados por uma distribuição normal.
-Quando os dados são plotados dessa forma, uma linha reta indica uma distribuição normal ideal, sendo essa linha plotada para ser usada como referência.
-Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém se espera que, se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
-As Figuras \ref{} a \ref{} mostram os normplots de cada distribuição.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa_cmfdr.pdf}
-	\caption{Normplot dos ... do algoritmo AFSA (10 amostras)}
-	\label{fig:hist_afsa_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_cmfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_afsa_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_mfdr.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\includegraphics[width=\linewidth]{img/bluehist_mfdr.pdf}
+	\caption{Histograma do desempenho de classificação do MFDR (10 amostras).}
 	\label{fig:hist_mfdr}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_mfd.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_mfd}
+	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfdr.pdf}
+	\caption{Histograma do desempenho de classificação do MFDR com AFSA (10 amostras).}
+	\label{fig:hist_afsa_mfdr}
 \end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_cmfdr.pdf}
+	\caption{Histograma do desempenho de classificação do cMFDR (10 amostras).}
+	\label{fig:hist_cmfdr}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehist_afsa_cmfdr.pdf}
+	\caption{Histograma do desempenho de classificação do cMFDR (10 amostras).}
+	\label{fig:hist_afsa_cmfdr}
+\end{figure}
+
+Observando os histogramas, não observamos indícios de normalidade em nenhuma das amostras.
+Para juntar mais evidências, continuaremos a análise.
+
+Outra ferramenta visual útil é o plot de probabilidade normal ou \textit{normplots}, que permite verificar o quão bem os dados representam uma distribuição normal.
+A escala do gráfico é elaborada para que dados provenientes de uma distribuição normal ideal formem um reta que é usada como referência na figura.
+Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém se espera que, se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
+As Figuras \ref{fig:norm_mfd} a \ref{fig:norm_afsa_cmfdr} mostram os normplots de cada distribuição.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_mfd.pdf}
+	\caption{Normplot desempenho de classificação do MFD (10 amostras).}
+	\label{fig:norm_mfd}
+\end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfd.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
-	\label{fig:hist_afas_mfd}
+	\caption{Normplot desempenho de classificação do MFD com AFSA (10 amostras).}
+	\label{fig:norm_afas_mfd}
 \end{figure}
 
-
-\textcolor{red}{ISSUE: Os pontos não aparecem quando o latex importa o pdf Oo [Lucas: os pontos aparecem pra mim; além disso, minha impressão é que, se tivéssemos mais dados, os pontos se aproximariam da reta. Será que podemos afirmar que não é normal?]}
-
-\textcolor{red}{[ROGÉRIO] Pra mim tb aparece}
-
-Podemos observar que os dados não se aproximam tão bem de uma linha reta.
-
-Por último ainda recorremos aos plot de caixa para verificar em particular a simetria dos dados. ...
-
-Para confirmar nossa intuição de que as amostras não são normalmente distribuídas, recorremos a testes de hipótese utilizados para verificação de normalidade.
-Os testes usados foram o de Shapiro-Wilk \cite{shapiro1965analysis} e ...	
-
-\textcolor{red}{As amostras pequenas se mostraram um fator limitante da análise...}
-
-\begin{table}[h]
+\begin{figure}[h]
 	\centering
-	\caption{Estatística descritiva}
-	\label{tab:est_descr}
-	\begin{tabular}{c|ccc}
-		Método    & Média  & Mediana & Desv. Padrão  \\
-		\hline
-		AFSA cMFDR & 81.58186 	& 81.50202 	& 0.9741085 \\
-		cMFDR & 81.3405 	& 81.3004 	& 0.8899744 \\
-		AFSA MFDR & 80.16942 	& 80.23216 	& 1.109113 \\
-		MFDR & 80.06198 	& 79.94699 	& 1.052274 \\
-		AFSA MFD & 81.72414 	& 81.95565 	& 0.9268894 \\
-		MFD & 81.78289 	& 81.95565 	& 0.824661 \\
-		\hline
-	\end{tabular}
-\end{table}
+	\includegraphics[width=\linewidth]{img/bluenorm_mfdr.pdf}
+	\caption{Normplot desempenho de classificação do MFDR (10 amostras).}
+	\label{fig:norm_mfdr}
+\end{figure}
 
-\textcolor{red}{FALAR SOBRE OS RESULTADOS
-Quais aparentam ser normais (média aprox. igual à mediana)
-}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfdr.pdf}
+	\caption{Normplot desempenho de classificação do MFDR com AFSA (10 amostras).}
+	\label{fig:norm_afsa_mfdr}
+\end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_cmfdr.pdf}
+	\caption{Normplot desempenho de classificação do cMFDR (10 amostras).}
+	\label{fig:norm_cmfdr}
+\end{figure}
 
-A Figura~\ref{fig:boxplot} apresenta uma.....
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluenorm_afsa_cmfdr.pdf}
+	\caption{Normplot desempenho de classificação do cMFDR com AFSA (10 amostras).}
+	\label{fig:norm_afsa_cmfdr}
+\end{figure}
+
+Podemos observar que o fitting em geral não foi tão próximo quanto se poderia esperar.
+Além disso, observa-se que nos valores mais extremos da distribuição, a aproximação degrada ainda mais (salvo pelo exemplo na Figura \ref{fig:norm_afsa_mfdr}).
+\textcolor{green}{Isso pode indicar que estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas da distribuição não são parecidas com a de uma normal}.
+
+\textcolor{red}{Não vejo necessidade de apresentar este aqui. Acho que tem muita informação já. Opinem}
+Ainda recorremos aos diagramas de caixa (Figura \ref{fig:boxplot}) como um último recurso visual. 
+Nestes podemos verificar sobretudo a simetria das amostras.
 
 \begin{figure}[h]
 	\centering
@@ -342,14 +320,43 @@ A Figura~\ref{fig:boxplot} apresenta uma.....
 	\label{fig:boxplot}
 \end{figure}
 
+Observando os diagramas, vemos que quase todos são assimétricos, alguns inclusive apresentando assimetria acentuada.
 
+\textcolor{red}{As amostras pequenas se mostraram um fator limitante da análise...}
 
-\textcolor{red}{FAZER UMA CONCLUSÃO DA SEÇÃO
-Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
+Além dos recursos gráficos, podemos analisar diretamente os sumários numéricos dos dados.
+Ao comparar médias e medianas, podemos ter uma idéia da simetria do conjunto em questão.
+A Tabela \ref{est_descr} mostra os valores de média, mediana e devio padrão de cada conjunto.
+\textcolor{red} {O problema é que esse desvio padrão tá meio solto aí. Não vai ser referenciado pra nada.. Acho que ou apresenta essa tabela, ou o boxplot, talvez até nenhum dos dois. Comentem.}
+\begin{table}[h]
+	\centering
+	\caption{Sumários numéricos dos dados}
+	\label{tab:est_descr}
+	\begin{tabular}{c|ccc}
+		Método    	& Média  	& Mediana 	& Desv. Padrão  \\
+		\hline
+		AFSA cMFDR 	& 81.58 	& 81.50 	& 0.97 \\
+		cMFDR 		& 81.34 	& 81.30		& 0.88 \\
+		AFSA MFDR 	& 80.16 	& 80.23 	& 1.10 \\
+		MFDR 		& 80.06 	& 79.94 	& 1.05 \\
+		AFSA MFD 	& 81.72 	& 81.95 	& 0.92 \\
+		MFD 		& 81.78 	& 81.95 	& 0.82 \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\textcolor{red}{FALAR SOBRE OS RESULTADOS
+Quais aparentam ser normais (média aprox. igual à mediana)
+}
+
+%\textcolor{red}{FAZER UMA CONCLUSÃO DA SEÇÃO
+%Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
 
 \subsection{Testes de aderência}
 
-Uma maneira mais formal de verificar se as amostras seguem uma distribuição normal é com o uso de testes de aderência. Nesta pesquisa, foram executados os testes Shapiro-Wilk~\cite{shapiro1965analysis}, Anderson-Darling~\cite{anderson1954test} e Cramer-von Mises~\cite{durbin1972components}. Os resultados dos testes para cada amostra são apresentados na tabela~\ref{tab:aderencia}.
+Uma maneira mais formal de verificar se as amostras seguem uma distribuição normal é com o uso de testes de aderência.
+Nesta pesquisa, foram executados os testes Shapiro-Wilk~\cite{shapiro1965analysis}, Anderson-Darling~\cite{anderson1954test} e Cramer-von Mises~\cite{durbin1972components}.
+Os resultados dos testes para cada amostra são apresentados na tabela~\ref{tab:aderencia}.
 
 \begin{table}[h]
 	\centering
@@ -359,30 +366,56 @@ Uma maneira mais formal de verificar se as amostras seguem uma distribuição no
 		\hline
 		& \multicolumn{3}{c}{\textit{p-value}}      \\
 		\cline{2-4}
-		& Shapiro-Wilk & Anderson-Darling  & Cramer-von Mises\\
+						& Shapiro-Wilk 	& Anderson-Darling  & Cramer-von Mises\\
 		\hline
-		AFSA CMFDR  	& 0.7513       & 0.6731           & 0.7485 \\
-		cMFDR 				 & 0.9010       & 0.8626          & 0.8632 \\
-		AFSA MFDR  		 & 0.8803       & 0.8929          & 0.8709 \\
-		MFDR  				 & 0.6160       & 0.4717            & 0.4513 \\
-		AFSA MFD   		  & 0.1950       &  0.2553          & 0.3081 \\
-		MFD   				  & 0.8890       &  0.7704          & 0.7267 \\
+		AFSA cMFDR		& 0.75       	& 0.67           	& 0.74 \\
+		cMFDR 			& 0.90       	& 0.86          	& 0.86 \\
+		AFSA MFDR  		& 0.88       	& 0.89          	& 0.87 \\
+		MFDR  			& 0.61       	& 0.47            	& 0.45 \\
+		AFSA MFD   		& 0.19       	& 0.25          	& 0.30 \\
+		MFD   			& 0.88       	& 0.77          	& 0.72 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-Consideramos que uma amostra não segue uma distribuição normal caso o \textit{p-value} seja menor que 0.05. Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, reforçando a impressão obtida da análise dos valores das médias e medianas das amostras~\ref{sec:estat_descr}. Porém é importante salientar que a eficiências de testes de aderência pode ser prejudicada quando as amostras são pequenas.Adicionalmente, a análise dos histogramas e dos boxplots (da maioria das amostras) dão indícios de que as amostras não seguem uma distribuição normal. Por estas razões, concluímos que, com os dados disponíveis, não temos segurança em afirmar que as amostras seguem uma distribuição normal. Diante disto, utilizamos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
-
+Consideramos que uma amostra não segue uma distribuição normal caso o \textit{p-value} seja menor que 0.05.
+Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, reforçando a impressão obtida da análise dos valores das médias e medianas das amostras~\ref{sec:estat_descr}.
+Porém é importante salientar que a eficiências de testes de aderência (não paramétricos) é muito prejudicada quando as amostras são pequenas, como no nosso caso.
+Adicionalmente, a análise dos histogramas, normplots e dos boxplots (da maioria das amostras) dão indícios de que as amostras não seguem uma distribuição normal.
+Por estas razões, concluímos que, com os dados disponíveis, não temos segurança em afirmar que as amostras seguem uma distribuição normal.
+Diante disto, utilizaremos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
 
 \subsection{Resultados}
 
-Diante 
+Depois de avaliar as distribuições das amostras, optamos pelo caminho mais seguro que consiste na comparação dos pares de métodos por testes não paramétricos. 
+Como as comparações a serem executadas são entre pares de algoritmos, o teste a ser utilizado é o teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
+
+Dado que temos a média amostral já computada para cada conjunto, optamos por um teste unilateral pois este tende a fornecer mais informação.
+As hipóteses são estabelecidas de acordo com a média amostral obtida.
+A hipótese nula é que as médias dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é...
+
+Os resultados dos testes são apresentados na Tabela \ref{tab:rank_sum}
+\begin{table}[h]
+	\centering
+	\caption{Resultados dos testes de aderência.}
+	\label{tab:rank_sum}
+	\begin{tabular}{c|c}
+		\hline
+		Hypothesis							& p-value\\
+		\hline
+		$H_1:$ AFSA MFD $<$ MFD   			& 0.22    \\
+		$H_1:$ MFDR  $<$ AFSA MFDR			& 0.27    \\
+		$H_1:$ cMFDR $<$ AFSA cMFDR			& 0.039    \\
+		\hline
+	\end{tabular}
+\end{table}
 
 \section{Conclusão}
 \label{sec:conclusao}
-
-\textcolor{red}{Escrever conclusão}
-
+\textcolor{red}{Completar.}
+Percebemos que para que a análise seja mais completa, se faz necessário uma amostra maior.
+Vale salientar que embora o resultado do teste seja inconclusivo para as duas amostras, ele fortalece a intuição de que não há diferenças significativas de fato.
+\textcolor{red}{Completar.}
 
 
 \bibliographystyle{IEEEtran}
