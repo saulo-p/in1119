@@ -60,8 +60,8 @@
 
 \author{\IEEEauthorblockN{
 		Rog\'{e}rio C. P. Fragoso\IEEEauthorrefmark{1}, 
-		Lucas F. Melo\IEEEauthorrefmark{1},
-		Saulo C. R. P. Sobrinho\IEEEauthorrefmark{1}
+		Saulo C. R. P. Sobrinho\IEEEauthorrefmark{1},
+		Lucas F. Melo\IEEEauthorrefmark{1}
 }
 \IEEEauthorblockA{Universidade Federal de Pernambuco (UFPE), Centro de Inform\'{a}tica (CIn)\\
 Av. Jornalista Anibal Fernandes s/n, Cidade Universit\'{a}ria 50740-560, Recife, PE, Brazil\\
@@ -73,7 +73,7 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 
 \begin{abstract}
 	%\boldmath
-\textcolor{red}{ESCREVER RESUMO}
+Este trabalho realiza uma análise estatística sobre desempenho de métodos de seleção de características para categorização de texto. Os métodos MFD, MFDR e cMFDR são analisados com objetivo de verificar se a configuração paramétrica automática, fornecida pelo método AFSA, impacta no desempenho de classificação dos métodos. Análises estatísticas não foram conclusivas quanto à aderência das amostras a uma distrbuição normal. Deste modo, o teste de hipóteses não-paramétrico Wilcoxon (teste de sinais com postos).
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -92,13 +92,16 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 \section{Introdução}
 \label{sec:intro}
 
-Algoritmos são sequências de instruções bem definidas, porém suas implementações podem apresentar comportamentos difíceis de serem previstos.
-Seja pelo uso de geração de números pseudo-aleatórios que geram um comportamento não determinístico inerente ao código, ou pelo uso de linguagens de alto nível cuja tradução para linguagem de máquina passa por otimizações e diferentes interações com a arquitetura de destino na qual o algoritmo é executado.
-Sendo assim, a performance de algoritmos de computação em geral é não-determinística e, ao analisar comparativamente o desempenho destes algoritmos, é necessário levar em consideração que estamos diante de uma amostra aleatória que representa estas performances.
+Um grande problema dos algoritmos de seleção de características é a identificação do número ideal de características a serem selecionadas. Um número pequeno pode acarretar em baixo desempenho de classificação. Um número grande, por outro lado, pode levar a um alto custo computacional. Normalmente este número é encontrado de maneira empíraca. Entretanto, problemas de categorização de texto costumam ser de alta dimensionalidade. Assim, o processo de encontrar o número ideal de características a serem selecionadas pode ser lento e custoso.
 
-Este trabalho realiza uma comparação entre algoritmos de categorização de texto (mais especificamente sobre a etapa de extração de características), mostrando como determinar e aplicar testes estatísticos adequados para este cenário.
+Os métodos de seleção de características \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} introduzem uma abordagem de seleção local de características,  o que facilita a parametrização da quantidade de características a serem selecionadas. Em um estudo~\cite{mfd2014}, verificou-se que, com a abordagem tradicional de seleção de características, é necessário avaliar subconjuntos desde 11 características até mais de 5000. Com a abordagem de seleção local, proposta nos métodos aupracitados, o melhor desempenho de classificação é encontrado em um espaço de 10 valores para seu único parâmetro ($f$). 
+
+Todavia, ainda assim, esta parametrização necessita de uma interação manual. Assim, dependendo do tipo de aplicação em que será usado o método de seleção de características, esta parametrização pode ter custos indesejáveis. O método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para tratar deste problema. AFSA realiza automaticamente a parametrização dos métodos MFD, MFDR e cMFDR.
+
+Neste trabalho analisamos os desempenhos dos métodos MFD, MFDR e cMFDR com configuração manual do parâmetro $f$ e com configuração automática deste parâmetro, fornecida pelo método AFSA. Desejamos averiguar se a parametrização automática acarreta em diferenças nos desempenhos dos métodos.
 
 \subsection{Fundamentação teórica}
+\label{sec:fundamentacao}
 %Seguindo o modelo sugerido no site, essa seção é obrigatória.
 
 Na abordagem de aprendizagem de máquina, uma instância é representada como um vetor composto por pares de característica e valor.
@@ -114,7 +117,10 @@ Uma técnica de DR muito utilizada é a seleção de características. Nesta abo
 \label{sec:metodos}
 
 \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} são métodos de seleção de características para categorização de texto.
-Estes métodos requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância.
+
+MFD realiza a seleção local (por documento) das $f$ características consideradas mais relevantes, de acordo com alguma \textit{feature evaluation function}. O parâmetro $f$ é informado pelo usuário. MFDR introduz um limiar onde apenas documentos considerados relevantes são considerados na seleção de características. cMFDR aperfeiçoa o limiar introduzido por MFDR. Com cMFDR, existe um limiar para cada categoria, o que melhora o desempenho em bases de dados desbalanceadas.
+
+Estes três métodos requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância.
 A escolha de um bom valor para este parâmetro pode ser um trabalho demorado e exaustivo.
 Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para ser usado conjuntamente com um dos três métodos: MFD, MFDR ou cMFDR.
 O objetivo do AFSA é prover, para estes métodos, um valor para o parâmetro $f$ de forma automática.
@@ -129,8 +135,8 @@ Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
 \section{Objetivo}
 \label{sec:objetivo}
 
-O objetivo desta pesquisa é verificar se o método AFSA é capaz de prover uma configuração para MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é alterado quando estes métodos são usados conjuntamente com AFSA.
-Esta análise comparativa visa determinar se os algoritmos possuem desempenhos significativamente diferentes e, em caso positivo, determinar qual apresenta desempenho superior.
+O objetivo desta pesquisa é verificar se o método AFSA é capaz de prover uma configuração para os métodos de seleção de características MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é impactado quando estes métodos são usados conjuntamente com AFSA.
+Esta análise visa determinar se os algoritmos possuem desempenhos significativamente diferentes.
 
 %Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal.
 %Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
@@ -326,8 +332,9 @@ Observando os diagramas, vemos que quase todos são assimétricos, alguns inclus
 
 Além dos recursos gráficos, podemos analisar diretamente os sumários numéricos dos dados.
 Ao comparar médias e medianas, podemos ter uma idéia da simetria do conjunto em questão.
-A Tabela \ref{est_descr} mostra os valores de média, mediana e devio padrão de cada conjunto.
+A Tabela \ref{tab:est_descr} mostra os valores de média, mediana e desvio padrão de cada conjunto.
 \textcolor{red} {O problema é que esse desvio padrão tá meio solto aí. Não vai ser referenciado pra nada.. Acho que ou apresenta essa tabela, ou o boxplot, talvez até nenhum dos dois. Comentem.}
+
 \begin{table}[h]
 	\centering
 	\caption{Sumários numéricos dos dados}
@@ -388,27 +395,29 @@ Diante disto, utilizaremos teste de hipótese não-paramétrico para verificar a
 \subsection{Resultados}
 
 Depois de avaliar as distribuições das amostras, optamos pelo caminho mais seguro que consiste na comparação dos pares de métodos por testes não paramétricos. 
-Como as comparações a serem executadas são entre pares de algoritmos, o teste a ser utilizado é o teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
+Como as comparações a serem executadas são entre pares de algoritmos, optamos pelo teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
 
-Dado que temos a média amostral já computada para cada conjunto, optamos por um teste unilateral pois este tende a fornecer mais informação.
-As hipóteses são estabelecidas de acordo com a média amostral obtida.
-A hipótese nula é que as médias dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é...
+Estabelecemos a hipótese nula de que os desempenhos dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é que os desempenhos são diferentes. Com esta hipótese, buscamos averiguar se a configuração paramétrica realizada automáticamente por AFSA apresenta algum impacto no desempenho de classificação.
 
-Os resultados dos testes são apresentados na Tabela \ref{tab:rank_sum}
+Os resultados dos testes são apresentados na Tabela 
+\ref{tab:rank_sum}.
+
 \begin{table}[h]
 	\centering
-	\caption{Resultados dos testes de aderência.}
+	\caption{Resultados dos testes de hipóteses Wilcoxon.}
 	\label{tab:rank_sum}
 	\begin{tabular}{c|c}
 		\hline
-		Hypothesis							& p-value\\
+		Hipótese alternativa							& \textit{p-value}\\
 		\hline
-		$H_1:$ AFSA MFD $<$ MFD   			& 0.22    \\
-		$H_1:$ MFDR  $<$ AFSA MFDR			& 0.27    \\
-		$H_1:$ cMFDR $<$ AFSA cMFDR			& 0.039    \\
+		$H_1:$ AFSA MFD $\neq$ MFD   			& 0.44    \\
+		$H_1:$ AFSA MFDR  $\neq$ MFDR			& 0.54    \\
+		$H_1:$ AFSA cMFDR $\neq$ cMFDR			& 0.08    \\
 		\hline
 	\end{tabular}
 \end{table}
+
+Para este teste, consideramos um nível de significância de 0.05. Assim, diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, chegamos à conclusão de que não há indícios suficientes para afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos MFD, MFDR e cMFDR. 
 
 \section{Conclusão}
 \label{sec:conclusao}
