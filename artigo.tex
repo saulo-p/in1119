@@ -313,51 +313,44 @@ As Figuras \ref{fig:norm_mfd} a \ref{fig:norm_afsa_cmfdr} mostram os normplots d
 
 Podemos observar que o fitting em geral não foi tão próximo quanto se poderia esperar.
 Além disso, observa-se que nos valores mais extremos da distribuição, a aproximação degrada ainda mais (salvo pelo exemplo na Figura \ref{fig:norm_afsa_mfdr}).
-\textcolor{green}{Isso pode indicar que, estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas da distribuição não são parecidas com a de uma normal}.
+Isso pode indicar que, estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas das distribuições consideradas não sejam parecidas com as de uma normal.
 
-\textcolor{red}{Não vejo necessidade de apresentar este aqui. Acho que tem muita informação já. Opinem}
 Ainda recorremos aos diagramas de caixa (Figura \ref{fig:boxplot}) como um último recurso visual. 
 Nestes podemos verificar sobretudo a simetria das amostras.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/blueboxplot.pdf}
-	\caption{\textcolor{red}{Escrever uma descrição}.}
+	\caption{Diagramas de caixa de todos os conjuntos de amostras.}
 	\label{fig:boxplot}
 \end{figure}
 
 Observando os diagramas, vemos que quase todos são assimétricos, alguns inclusive apresentando assimetria acentuada.
-
-\textcolor{red}{As amostras pequenas se mostraram um fator limitante da análise...}
+A simetria é uma característica inerente a distribuição normal, se esta característica não for observada, não podemos assumir normalidade.
 
 Além dos recursos gráficos, podemos analisar diretamente os sumários numéricos dos dados.
 Ao comparar médias e medianas, podemos ter uma idéia da simetria do conjunto em questão.
-A Tabela \ref{tab:est_descr} mostra os valores de média, mediana e desvio padrão de cada conjunto.
-\textcolor{red} {O problema é que esse desvio padrão tá meio solto aí. Não vai ser referenciado pra nada.. Acho que ou apresenta essa tabela, ou o boxplot, talvez até nenhum dos dois. Comentem.}
+A Tabela \ref{tab:est_descr} mostra os valores de média e mediana de cada conjunto.
 
 \begin{table}[h]
 	\centering
 	\caption{Sumários numéricos dos dados}
 	\label{tab:est_descr}
-	\begin{tabular}{c|ccc}
-		Método    	& Média  	& Mediana 	& Desv. Padrão  \\
+	\begin{tabular}{c|cc}
+		Método    	& Média  	& Mediana \\
 		\hline
-		AFSA cMFDR 	& 81.58 	& 81.50 	& 0.97 \\
-		cMFDR 		& 81.34 	& 81.30		& 0.88 \\
-		AFSA MFDR 	& 80.16 	& 80.23 	& 1.10 \\
-		MFDR 		& 80.06 	& 79.94 	& 1.05 \\
-		AFSA MFD 	& 81.72 	& 81.95 	& 0.92 \\
-		MFD 		& 81.78 	& 81.95 	& 0.82 \\
+		AFSA cMFDR 	& 81.58 	& 81.50  \\
+		cMFDR 		& 81.34 	& 81.30		 \\
+		AFSA MFDR 	& 80.16 	& 80.23 	 \\
+		MFDR 		& 80.06 	& 79.94 	 \\
+		AFSA MFD 	& 81.72 	& 81.95 	 \\
+		MFD 		& 81.78 	& 81.95 	 \\
 		\hline
 	\end{tabular}
 \end{table}
 
-\textcolor{red}{FALAR SOBRE OS RESULTADOS
-Quais aparentam ser normais (média aprox. igual à mediana)
-}
+\textcolor{red}{Aqui fica um pouco problemático porque a média próxima à mediana contradiz o boxplot... Sugestões ?}
 
-%\textcolor{red}{FAZER UMA CONCLUSÃO DA SEÇÃO
-%Falar das impressões sobre a normalidade dos dados com bases nos histogramas, boxplot e medidas estatísticas.......}
 
 \subsection{Testes de aderência}
 
@@ -408,7 +401,7 @@ Os resultados dos testes são apresentados na Tabela
 	\label{tab:rank_sum}
 	\begin{tabular}{c|c}
 		\hline
-		Hipótese alternativa							& \textit{p-value}\\
+		Hipótese alternativa					& \textit{p-value}\\
 		\hline
 		$H_1:$ AFSA MFD $\neq$ MFD   			& 0.44    \\
 		$H_1:$ AFSA MFDR  $\neq$ MFDR			& 0.54    \\
@@ -417,14 +410,21 @@ Os resultados dos testes são apresentados na Tabela
 	\end{tabular}
 \end{table}
 
-Para este teste, consideramos um nível de significância de 0.05. Assim, diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, chegamos à conclusão de que não há indícios suficientes para afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos MFD, MFDR e cMFDR. 
+Para este teste, consideramos um nível de significância de 0.05.
+Diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, não há indícios suficientes para afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos MFD, MFDR e cMFDR.
+
+Da forma como os testes de hipótese são elaborados, a não rejeição não permite ao experimentador tirar conclusões. 
+Uma boa forma de ganhar mais segurança no resultado seria colher mais amostras de execuções de cada algoritmo, o que aumenta o poder do teste, porém, a execução dos algoritmos apresentados é computacionalmente custosa devido ao tamanho das bases de dados e da alta dimensionalidade inerente ao problema, sendo assim, a análise inicial precisou ser limitada a um número pequeno de amostras.
+Ainda assim, a não rejeição dá um indício ao experimentador de que talvez o AFSA não cause impactos no desempenho dos algoritmos, o que seria o comportamento desejado.
+
 
 \section{Conclusão}
 \label{sec:conclusao}
-\textcolor{red}{Completar.}
-Percebemos que para que a análise seja mais completa, se faz necessário uma amostra maior.
-Vale salientar que embora o resultado do teste seja inconclusivo para as duas amostras, ele fortalece a intuição de que não há diferenças significativas de fato.
-\textcolor{red}{Completar.}
+Pelos experimentos e resultados apresentados, não foi possível obter conclusões fortes sobre as comparações, em outras palavras, não foi possível rejeitar a hipótese nula de que a inclusão do AFSA não influencia na performance dos algoritmos de classificação.
+Observamos que para que a comparação por meio do teste de hipótese seja mais precisa, se faz necessário uma amostra maior, especialmente pois testes não paramétricos necessitam de mais amostras do que seus equivalentes paramétricos para obter as mesmas conclusões.
+O aumento da amostra inclusive poderia levar a verificação de normalidade nas amostras, o que alteraria até o próprio teste de comparação.
+
+Vale salientar que embora o resultado do teste seja inconclusivo para as amostras apresentadas, ele indica que a inclusão do AFSA pode não gerar diferenças significativas de fato, que é um comportamento desejado.
 
 
 \bibliographystyle{IEEEtran}
