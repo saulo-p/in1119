@@ -414,17 +414,17 @@ Para este teste, consideramos um nível de significância de 0.05.
 Diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, não há indícios suficientes para afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos MFD, MFDR e cMFDR.
 
 Da forma como os testes de hipótese são elaborados, a não rejeição não permite ao experimentador tirar conclusões. 
-Uma boa forma de ganhar mais segurança no resultado seria colher mais amostras de execuções de cada algoritmo, o que aumenta o poder do teste, porém, a execução dos algoritmos apresentados é computacionalmente custosa devido ao tamanho das bases de dados e da alta dimensionalidade inerente ao problema, sendo assim, a análise inicial precisou ser limitada a um número pequeno de amostras.
+Uma boa forma de ganhar mais segurança no resultado seria colher mais amostras de execuções de cada algoritmo, o que aumenta o poder do teste. Entretanto, a execução dos algoritmos apresentados é computacionalmente custosa devido ao tamanho das bases de dados e da alta dimensionalidade inerente ao problema e, dessa forma, a análise inicial precisou ser limitada a um número pequeno de amostras.
 Ainda assim, a não rejeição dá um indício ao experimentador de que talvez o AFSA não cause impactos no desempenho dos algoritmos, o que seria o comportamento desejado.
 
 
 \section{Conclusão}
 \label{sec:conclusao}
-Pelos experimentos e resultados apresentados, não foi possível obter conclusões fortes sobre as comparações, em outras palavras, não foi possível rejeitar a hipótese nula de que a inclusão do AFSA não influencia na performance dos algoritmos de classificação.
-Observamos que para que a comparação por meio do teste de hipótese seja mais precisa, se faz necessário uma amostra maior, especialmente pois testes não paramétricos necessitam de mais amostras do que seus equivalentes paramétricos para obter as mesmas conclusões.
-O aumento da amostra inclusive poderia levar a verificação de normalidade nas amostras, o que alteraria até o próprio teste de comparação.
+Pelos experimentos e resultados apresentados, não foi possível obter conclusões fortes sobre as comparações. Em outras palavras, não foi possível rejeitar a hipótese nula de que a inclusão do AFSA não influencia na performance dos algoritmos de classificação.
+Observamos que, para que a comparação por meio do teste de hipótese seja mais precisa, se faz necessário uma amostra maior, especialmente porque testes não paramétricos necessitam de mais amostras do que seus equivalentes paramétricos para obter as mesmas conclusões.
+O aumento da amostra poderia inclusive levar à verificação de normalidade nas amostras, o que alteraria até o próprio teste de comparação.
 
-Vale salientar que embora o resultado do teste seja inconclusivo para as amostras apresentadas, ele indica que a inclusão do AFSA pode não gerar diferenças significativas de fato, que é um comportamento desejado.
+Vale salientar que, embora o resultado do teste seja inconclusivo para as amostras apresentadas, ele indica que a inclusão do AFSA pode não gerar diferenças significativas de fato, que é um comportamento desejado.
 
 
 \bibliographystyle{IEEEtran}
