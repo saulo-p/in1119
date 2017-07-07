@@ -1,7 +1,7 @@
 \newcommand{\CLASSINPUTbaselinestretch}{1.0} % baselinestretch
 \newcommand{\CLASSINPUTinnersidemargin}{0.75in} % inner side margin
 \newcommand{\CLASSINPUToutersidemargin}{0.75in} % outer side margin
-\newcommand{\CLASSINPUTtoptextmargin}{0.75in}   % top text margin
+\newcommand{\CLASSINPUTtoptextmargin}{0.75in} % top text margin
 \newcommand{\CLASSINPUTbottomtextmargin}{0.75in}% bottom text margin
 
 \newcommand{\revised}[1]{{\color{blue}#1}}
@@ -46,6 +46,8 @@
 % correct bad hyphenation here
 \hyphenation{rep-re-sen-ta-tion fe-de-ral}
 
+% language package		
+\usepackage[portuguese]{babel}
 
 \begin{document}
 %
@@ -73,7 +75,7 @@ rcpf@cin.ufpe.br, lfm2@cin.ufpe.br, scrps@cin.ufpe.br \\}}
 
 \begin{abstract}
 	%\boldmath
-Este trabalho realiza uma análise estatística sobre desempenho de métodos de seleção de características para categorização de texto. Os métodos MFD, MFDR e cMFDR são analisados com objetivo de verificar se a configuração paramétrica automática, fornecida pelo método AFSA, impacta no desempenho de classificação dos métodos. Análises estatísticas não foram conclusivas quanto à aderência das amostras a uma distrbuição normal. Deste modo, foi utilizado o teste de hipóteses não-paramétrico de Wilcoxon (teste de sinais com postos).
+Este trabalho realiza uma análise estatística sobre desempenho de métodos de seleção de características para categorização de texto. Os métodos cMFDR, MFDR e MFD são analisados com objetivo de verificar se a configuração paramétrica automática, fornecida pelo método AFSA, impacta no desempenho de classificação dos métodos. Análises estatísticas não foram conclusivas quanto à aderência das amostras a uma distrbuição normal. Deste modo, foi utilizado o teste de hipóteses não-paramétrico de Wilcoxon (teste de sinais com postos).
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -81,24 +83,24 @@ Este trabalho realiza uma análise estatística sobre desempenho de métodos de 
 % Formato descrito na página da disciplina. Lá ela diz que a presença destas seções é mandatória. 
 % (Acho que a gente não precisa organizar nesse formato exatamente, mas precisamos garantir que cada item esteja presente)
 
-%•       Passo 1 – Justificativa: De início, explicitam-se os motivos que justificam a pesquisa, determinando-se e delimitando-se o problema, o qual deve estar formulado de maneira clara e precisa.
-%•       Passo 2 - Fundamentação teórica: Descreve-se  o relacionamento do problema com a teoria que será utilizada na pesquisa.
-%•       Passo 3 - Objetivo da pesquisa: Os objetivos devem ser retirados diretamente dos problemas levantados no Passo 2. Define-se o que se pretende alcançar com a realização do trabalho.
-%•       Passo 4 - Especificação da amostra: Deve-se determinar a área de execução da pesquisa, a população a ser investigada, o tipo de amostra e a determinação do seu tamanho, bem como o tipo de amostragem a ser utilizado. Define-se as variáveis envolvidas.
-%•       Passo 5– Análise exploratória: Fazer um estudo descritivo dos dados (gráficos e medidas).  Verificar normalidade dos dados e potenciais pontos aberrantes.
-%•       Passo 6– Metodologia (Formulação das hipóteses): Estabelecem-se as hipóteses que serão formuladas, as quais devem ser claras e precisas. Define-se o problema estatisticamente, decidindo-se que informação estatística é realmente necessária e qual método que será aplicado.   
-%•       Passo 7 - Análise dos resultados: Passa-se ao tratamento dos dados por intermédio dos testes estatísticos, os quais dependem das hipóteses que serão testadas. Nesse tópico, é exigido que sejam aplicados testes de hipóteses paramétricos e/ou não paramétricos. Testes de duas amostras são exigidos, quando comparando abordagens.
+%• Passo 1 – Justificativa: De início, explicitam-se os motivos que justificam a pesquisa, determinando-se e delimitando-se o problema, o qual deve estar formulado de maneira clara e precisa.
+%• Passo 2 - Fundamentação teórica: Descreve-se o relacionamento do problema com a teoria que será utilizada na pesquisa.
+%• Passo 3 - Objetivo da pesquisa: Os objetivos devem ser retirados diretamente dos problemas levantados no Passo 2. Define-se o que se pretende alcançar com a realização do trabalho.
+%• Passo 4 - Especificação da amostra: Deve-se determinar a área de execução da pesquisa, a população a ser investigada, o tipo de amostra e a determinação do seu tamanho, bem como o tipo de amostragem a ser utilizado. Define-se as variáveis envolvidas.
+%• Passo 5– Análise exploratória: Fazer um estudo descritivo dos dados (gráficos e medidas). Verificar normalidade dos dados e potenciais pontos aberrantes.
+%• Passo 6– Metodologia (Formulação das hipóteses): Estabelecem-se as hipóteses que serão formuladas, as quais devem ser claras e precisas. Define-se o problema estatisticamente, decidindo-se que informação estatística é realmente necessária e qual método que será aplicado. 
+%• Passo 7 - Análise dos resultados: Passa-se ao tratamento dos dados por intermédio dos testes estatísticos, os quais dependem das hipóteses que serão testadas. Nesse tópico, é exigido que sejam aplicados testes de hipóteses paramétricos e/ou não paramétricos. Testes de duas amostras são exigidos, quando comparando abordagens.
 
 \section{Introdução}
 \label{sec:intro}
 
 Um grande problema dos algoritmos de seleção de características é a identificação do número ideal de características a serem selecionadas. Um número pequeno pode acarretar em baixo desempenho de classificação. Um número grande, por outro lado, pode levar a um alto custo computacional. Normalmente este número é encontrado de maneira empírica. Entretanto, problemas de categorização de texto costumam ser de alta dimensionalidade. Assim, o processo de encontrar o número ideal de características a serem selecionadas pode ser lento e custoso.
 
-Os métodos de seleção de características \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} introduzem uma abordagem de seleção local de características,  o que facilita a parametrização da quantidade de características a serem selecionadas. Em um estudo~\cite{mfd2014}, verificou-se que, com a abordagem tradicional de seleção de características, é necessário avaliar subconjuntos desde 11 características até mais de 5000. Com a abordagem de seleção local, proposta nos métodos supracitados, o melhor desempenho de classificação é encontrado em um espaço de 10 valores para seu único parâmetro ($f$). 
+Os métodos de seleção de características \textit{Maximum f features per Document} (MFD)~\cite{mfd2014}, \textit{Maximum f features per Document-Reduced} (MFDR)~\cite{mfd2014} e \textit{Class-dependent Maximum f features per Document-Reduced} (cMFDR)~\cite{fragoso2016cmfdr} introduzem uma abordagem de seleção local de características, o que facilita a parametrização da quantidade de características a serem selecionadas. Em um estudo~\cite{mfd2014}, verificou-se que, com a abordagem tradicional de seleção de características, é necessário avaliar subconjuntos desde 11 características até mais de 5000. Com a abordagem de seleção local, proposta nos métodos supracitados, o melhor desempenho de classificação é encontrado em um espaço de 10 valores para seu único parâmetro ($f$). 
 
-Todavia, ainda assim, esta parametrização necessita de uma interação manual. Assim, dependendo do tipo de aplicação em que será usado o método de seleção de características, esta parametrização pode ter custos indesejáveis. O método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para tratar deste problema. AFSA realiza automaticamente a parametrização dos métodos MFD, MFDR e cMFDR.
+Todavia, ainda assim, esta parametrização necessita de uma interação manual. Assim, dependendo do tipo de aplicação em que será usado o método de seleção de características, esta parametrização pode ter custos indesejáveis. O método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para tratar deste problema. AFSA realiza automaticamente a parametrização dos métodos cMFDR, MFDR e MFD.
 
-Neste trabalho analisamos os desempenhos dos métodos MFD, MFDR e cMFDR com configuração manual do parâmetro $f$ e com configuração automática deste parâmetro, fornecida pelo método AFSA. Desejamos averiguar se a parametrização automática acarreta em diferenças nos desempenhos dos métodos.
+Neste trabalho analisamos os desempenhos dos métodos cMFDR, MFDR e MFD com configuração manual do parâmetro $f$ e com configuração automática deste parâmetro, fornecida pelo método AFSA. Desejamos averiguar se a parametrização automática acarreta em diferenças nos desempenhos dos métodos.
 
 \subsection{Fundamentação teórica}
 \label{sec:fundamentacao}
@@ -122,7 +124,7 @@ MFD realiza a seleção local (por documento) das $f$ características considera
 
 Estes três métodos requerem um valor para o parâmetro $f$, que indica a quantidade de características a serem selecionadas por instância.
 A escolha de um bom valor para este parâmetro pode ser um trabalho demorado e exaustivo.
-Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para ser usado conjuntamente com um dos três métodos: MFD, MFDR ou cMFDR.
+Neste contexto, o método \textit{Automatic Feature Subsets Analyzer} (ASFA)~\cite{fragoso2016afsa} foi proposto para ser usado conjuntamente com um dos três métodos: cMFDR, MFDR ou MFD.
 O objetivo do AFSA é prover, para estes métodos, um valor para o parâmetro $f$ de forma automática.
 
 Esta seção apresentou conceitos básicos de categorização de textos e seleção de características e introduziu os métodos de seleção de características que são avaliados no trabalho. 
@@ -135,8 +137,7 @@ Finalmente, a Seção \ref{sec:conclusao} apresenta as conclusões do trabalho.
 \section{Objetivo}
 \label{sec:objetivo}
 
-O objetivo desta pesquisa é verificar se o método AFSA é capaz de prover uma configuração para os métodos de seleção de características MFD, MFDR e cMFDR de modo que o desempenho de classificação não seja prejudicado. Ou seja, desejamos averiguar se o desempenho dos métodos MFD, MFDR e cMFDR é impactado quando estes métodos são usados conjuntamente com AFSA.
-Esta análise visa determinar se os algoritmos possuem desempenhos significativamente diferentes.
+O objetivo desta pesquisa é verificar se o método AFSA é capaz de prover uma configuração paramétrica, para os métodos de seleção de características cMFDR, MFDR e MFD e , de modo que o desempenho de classificação destes métodos não seja prejudicado. Ou seja, desejamos averiguar se o desempenho destes métodos é impactado quando eles são usados conjuntamente com AFSA. Assim, o desempenho de cada um dos métodos cMFDR, MFDR e MFD é comparado com sua versão combinada com AFSA (AFSA+cMFDR, AFSA+MFDR, AFSA+MFD), com vistas a determinar se os algoritmos apresentam diferenças estatisticamente significativas de desempenho.
 
 %Para tanto, executamos análises estatísticas para avaliar a aderência dos dados amostrais a uma distribuição normal.
 %Posteriormente, aplicamos testes de hipóteses adequados para, efetivamente, comparar os desempenho dos métodos.
@@ -160,23 +161,23 @@ A distribuição dos documentos é bastante desbalanceada, apresentando categori
 Nesta base foram aplicados os seguintes procedimentos de pré-processamento: \textit{stemming}, com o algoritmo \textit{Iterated Lovins Stemmer}~\cite{lovins1968development}, 
 remoção de termos com duas ou menos letras e remoção de \textit{stopwords}.
 
-Vale salientar que  a análise comparativa deste trabalho é realizada sobre o desempenho dos algoritmos, tendo a base citada como entrada, e não sobre características da base em si. O processo de geração das amostras utilizadas na análise estatística é detalhado na Seção~\ref{sec:metodologia}.
+Vale salientar que a análise comparativa deste trabalho é realizada sobre o desempenho dos algoritmos, tendo a base citada como entrada, e não sobre características da base em si. O processo de geração das amostras utilizadas na análise estatística é detalhado na Seção~\ref{sec:metodologia}.
 
 \subsection{Metodologia}
 \label{sec:metodologia}
 
 Conforme mencionado na Seção \ref{sec:objetivo}, esta pesquisa visa realizar uma comparação de desempenho de algoritmos de seleção de características para categorização de texto.
-Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos MFD, MFDR e cMFDR (conforme descrito na Seção~\ref{sec:metodos}). O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
+Neste trabalho, é feita uma avaliação do desempenho do método AFSA. Para tanto, AFSA é usado em conjunto com cada um dos métodos cMFDR, MFDR e MFD (conforme descrito na Seção~\ref{sec:metodos}). O desempenho de cada um dos métodos configurado manualmente é comparado com o desempenho destes métodos configurados automaticamente por AFSA.
 
 O desempenho de um método de seleção de características pode ser auferido em termos de redução de dimensionalidade (tamanho do vetor final de características), tempo de execução e do desempenho de classificação atingido com o vetor de características resultante do processo de seleção. Neste trabalho, a avaliação dos desempenhos dos métodos levou em conta o desempenho de classificação sobre a base de dados resultante do processo de seleção de características. O algoritmo de aprendizagem de máquina empregado para a avaliação dos métodos foi classificador \textit{Na\"ive Bayes Multinomial}~\cite{mccallum1998comparison}. 
 
-A base de dados \textit{Reuters 10} foi pré-processada utilizando cada um dos seis algoritmos de seleção de carcaterísticas (MFD, MFDR cMFDR e a combinação de cada um destes com AFSA), gerando, assim, seis versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} foi treinado e testado com cada uma destas seis versões.
+A base de dados \textit{Reuters 10} foi pré-processada utilizando cada um dos seis algoritmos de seleção de carcaterísticas (cMFDR, MFDR e MFD e a combinação de cada um destes com AFSA), gerando, assim, seis versões da base original. Em seguida, o classificador \textit{Na\"ive Bayes Multinomial} foi treinado e testado com cada uma destas seis versões.
 
 A validação cruzada estratificada foi utilizada como método para estimativa de desempenho.
 Esta técnica é adotada para avaliar a capacidade de generalização de um modelo a partir de um conjunto de dados.
 Neste trabalho utilizou-se a variação validação cruzada estratificada com \emph{10 folds}, na qual a base de dados $\mathcal{D}$ é particionada em 10 subconjuntos (\emph{folds}), de tamanhos semelhantes, mantendo a proporção de documentos por categorias equivalente à proporção encontrada no conjunto original. Então, são construídos 10 classificadores, cada um utilizando uma parcela dos \emph{folds} para treinamento e outra parcela para realizar o teste do mesmo, de modo a gerar diferentes combinações dos \emph{folds}~\cite{kohavi1995study}.
 
-Nos experimentos realizados com os métodos MFD, MFDR e cMFDR, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
+Nos experimentos realizados com os métodos cMFDR, MFDR e MFD, nove partições foram utilizadas para treinamento e uma partição foi utilizada para teste.
 O método AFSA requer uma porção dos dados para configuração de seus parâmetreos. Assim, os experimentos executados com AFSA utilizaram oito partições para treinamento, uma para configuração de parâmetros/validação e uma para teste.
 Deste modo, ao final deste processo, temos dez medidas de desempenho para cada um dos seis métodos de seleção de características avaliados.
 Estes dados de desempenho correspondem às amostras que são entradas para as análises estatísticas realizadas neste trabalho.
@@ -215,108 +216,69 @@ Para se ter uma indicação sobre os tipos de testes de hipótese que podem ser 
 A suposição de normalidade é útil pois, se esta for plausível, podemos aplicar testes paramétricos sobre os dados.
 Testes paramétricos possuem maior poder estatístico do que seus equivalentes não-paramétricos, o que nos permite extrair conclusões mais fortes.
 
-Para verificar a normalidade, começamos utilizando recursos visuais.
-Histogramas permitem visualizar a disposição das amostras e, consequentemente, intuir sobre a distribuição da população geradora.
-As Figuras~\ref{fig:hist_afsa_cmfdr} a~\ref{fig:hist_mfd} apresentam os histogramas com os desempenhos de classificação de cada algoritmo  nas suas versões combinadas com o ASFA e sem o mesmo.
+Para verificar a normalidade, começamos analisando diretamente os sumários numéricos dos dados.
+Ao comparar médias e medianas, podemos ter uma idéia da simetria do conjunto em questão.
+Adicionalmente, verificamo o índice de assimetria para cada amostra. Comumente, uma amostra é considerada simétrica se apresenta índice de assimetria entre $-0.5$ e $0.5$. Amostras com índice de assimetria com valores entre $-1$ e $-0.5$ ou entre $0.5$ e $1.0$ são consideradas levemente assimétricas. Já amostras com índice de assimetria menor que $-1$ ou maior que $1$ são tidas como assimétricas.  A Tabela \ref{tab:est_descr} mostra os valores de média, mediana e assimetria de cada conjunto. 
 
-\begin{figure}[h]
+\begin{table}[h]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_mfd.pdf}
-	\caption{Histograma do desempenho de classificação do MFD (10 amostras).}
-	\label{fig:hist_mfd}
+	\caption{Sumários numéricos dos dados}
+	\label{tab:est_descr}
+	\begin{tabular}{c|ccl}
+		Método 	& Média & Mediana & Assimetria\\
+		\hline
+		AFSA+cMFDR 	& 81.58 & 81.50 & 0.39 \\
+		cMFDR & 81.34 	& 81.30 & 0.38 \\
+		AFSA+MFDR & 80.16 & 80.23 & 0.46 \\
+		MFDR & 80.06 & 79.94 & -0.16 \\
+		AFSA+MFD & 81.72 & 81.95 & -0.64 \\
+		MFD & 81.78 & 81.95 & -0.34 \\
+		\hline& 
+	\end{tabular}
+\end{table}
+
+A maioria das amostras apresenta valores de suas médias relativamente próximos aos de suas medianas. Além disso, a maioria das amostras apresentam índices de assimetria entre $-0.5$ e $0.5$. Uma exceção é AFSA+MFD, que apresenta índice de assimetria igual a $-0.64$.
+À primeira vista, podemos imaginar que os dados seguem uma distribuição normal. 
+Entretanto, somente esta análise numérica é insuficiente para nos fornecer informações consistentes para subsidiar uma conclusão sobre a normalidade dos dados.
+
+
+É comum o uso de recursos visuais para analisar a distribuição de uma amostra de dados. Histogramas permitem visualizar a distribuição de frequências das amostras e, consequentemente, intuir sobre a distribuição da população da qual a amostra foi extraída.
+A Figura~\ref{fig:hist} apresenta os histogramas dos desempenhos de classificação de cada algoritmo, nas suas versões combinadas com o ASFA e sem o mesmo.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth]{img/bluehistograms.pdf}
+	\caption{Histograma do desempenho de classificação dos métodos cMFDR, MFDR e MFD e suas versões combinadas com AFSA.}
+	\label{fig:hist}
 \end{figure}
 
-\begin{figure}[h]
+Histogramas de amostras de dados normalmente distribuidos apresentam o formato de um sino, com os valores centrais exibindo maiores frequencias.
+Analisando os histogramas, não observamos indícios fortes de normalidade em nenhuma das amostras.
+O histograma da amostra de AFSA+cMFDR exibe uma forma semelhante a de uma distribuição normal. 
+Entretanto, a presença de valores com frequência igual a zero não nos permite concluir que a amostra tem distribuição semelhante à normal.
+Já para cMFDR, o histograma apresenta uma forte assimetria positiva.
+O histograma de AFSA+MFDR não guarda semelhanças com uma distribuição normal.
+O histograma de MFDR apresenta maior frequência nos valores centrais, mas com uma frequência muito alta na cauda direita.
+A amostra de AFSA+MFD exibe um histograma com forte assimetria negativa.
+O histograma de MFD apresenta forma análoga a de uma distribuição normal.
+Notamos uma maior frequência nos valores centrais, porém o histograma apresenta uma leve assimetria negativa. 
+A impressão obtida a partir dos histogramas contradiz a conclusão da observação das médias, medianas e assimetrias das amostras. Sendo assim, continuamos a análise com outros recursos visuais, em busca de evidências mais robustas.
+
+Outra ferramenta visual útil é o gráfico QQ (\textit{QQ Plot}), que permite verificar a semelhança entre duas distribuições de probabilidade. Nesta pesquisa, usamos o gráfico QQ para verificar a semelhança das distribuições de probablidades das amostras com uma distribuição normal. Caso a distribuição da amostra seja semelhante à uma normal, os pontos no gráfico QQ são posicionados sobre a reta $y = x$. Num cenário real, devido à presença de ruídos, não se espera que os dados adequem-se perfeitamente à tal reta. Porém, espera-se que, se os dados forem provenientes de uma distribuição semelhante à normal, estes se aproximem da reta $y = x$.
+A Figura~\ref{fig:qqplots} mostra os Gráficos QQ para cada amostra.
+
+\begin{figure}[!hb]
 	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfd.pdf}
-	\caption{Histograma do desempenho de classificação do MFD com AFSA (10 amostras).}
-	\label{fig:hist_afsa_mfd}
+	\includegraphics[width=\linewidth]{img/blueqqplots.pdf}
+	\caption{Gráfico QQ dos desempenhos de classificação dos métodos cMFDR, MFDR e MFD e suas versões combinadas com AFSA.}
+	\label{fig:qqplots}
 \end{figure}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_mfdr.pdf}
-	\caption{Histograma do desempenho de classificação do MFDR (10 amostras).}
-	\label{fig:hist_mfdr}
-\end{figure}
+Podemos observar que o ajuste das distribuições de probabilidade das amostras à normal, em geral, não foi tão próximo ao ponto de nos levar a uma conclusão de que as amostras provêm de uma distribuição normal.
+Nas amostras que representam os resultados dos métodos cMFDR e AFSA+MFDR e MFD, os pontos aproximam razoavelmente a reta $y = x$. Todavia, com estas informações, ainda não temos subsidíos que nos apoiem a adotar testes de hipóteses paramétricos. Cada método que apresenta aparente aderência à normal é comparado com um método que não apresenta indícios de normalidade nos gráficos QQ (AFSA+cMFDR, MFDR e AFSA+MFD). 
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa_mfdr.pdf}
-	\caption{Histograma do desempenho de classificação do MFDR com AFSA (10 amostras).}
-	\label{fig:hist_afsa_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_cmfdr.pdf}
-	\caption{Histograma do desempenho de classificação do cMFDR (10 amostras).}
-	\label{fig:hist_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluehist_afsa_cmfdr.pdf}
-	\caption{Histograma do desempenho de classificação do cMFDR com AFSA (10 amostras).}
-	\label{fig:hist_afsa_cmfdr}
-\end{figure}
-
-Observando os histogramas, não observamos indícios de normalidade em nenhuma das amostras.
-Para juntar mais evidências, continuaremos a análise.
-
-Outra ferramenta visual útil é o plot de probabilidade normal ou \textit{normplots}, que permite verificar o quão bem os dados representam uma distribuição normal.
-A escala do gráfico é elaborada para que dados provenientes de uma distribuição normal ideal formem um reta que é usada como referência na figura.
-Num cenário real, devido à presença de ruídos, não se espera que os dados se adequem perfeitamente à reta, porém se espera que, se os dados forem provenientes de uma distribuição normal, estes sejam bem aproximados pela reta de referência e estejam próximos a ela.
-As Figuras \ref{fig:norm_mfd} a \ref{fig:norm_afsa_cmfdr} mostram os normplots de cada distribuição.
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_mfd.pdf}
-	\caption{Normplot desempenho de classificação do MFD (10 amostras).}
-	\label{fig:norm_mfd}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfd.pdf}
-	\caption{Normplot desempenho de classificação do MFD com AFSA (10 amostras).}
-	\label{fig:norm_afas_mfd}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_mfdr.pdf}
-	\caption{Normplot desempenho de classificação do MFDR (10 amostras).}
-	\label{fig:norm_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa_mfdr.pdf}
-	\caption{Normplot desempenho de classificação do MFDR com AFSA (10 amostras).}
-	\label{fig:norm_afsa_mfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_cmfdr.pdf}
-	\caption{Normplot desempenho de classificação do cMFDR (10 amostras).}
-	\label{fig:norm_cmfdr}
-\end{figure}
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=\linewidth]{img/bluenorm_afsa_cmfdr.pdf}
-	\caption{Normplot desempenho de classificação do cMFDR com AFSA (10 amostras).}
-	\label{fig:norm_afsa_cmfdr}
-\end{figure}
-
-Podemos observar que o fitting em geral não foi tão próximo quanto se poderia esperar.
-Além disso, observa-se que nos valores mais extremos da distribuição, a aproximação degrada ainda mais (salvo pelo exemplo na Figura \ref{fig:norm_afsa_mfdr}).
-Isso pode indicar que, estes pontos talvez sejam outliers, ou, o que consideramos mais provável, que as caudas das distribuições consideradas não sejam parecidas com as de uma normal.
-
-Ainda recorremos aos diagramas de caixa (Figura \ref{fig:boxplot}) como um último recurso visual. 
-Nestes podemos verificar sobretudo a simetria das amostras.
+Ainda recorremos aos diagramas de caixa (\textit{boxplots}) como um último recurso visual. 
+Este tipo de diagrama tem o objetivo de verificar sobretudo a simetria das amostras. Os diagramas de caixa das amostras em análise são apresentados na Figura \ref{fig:boxplot}.
 
 \begin{figure}[h]
 	\centering
@@ -325,72 +287,49 @@ Nestes podemos verificar sobretudo a simetria das amostras.
 	\label{fig:boxplot}
 \end{figure}
 
-Observando os diagramas, vemos que quase todos são assimétricos, alguns inclusive apresentando assimetria acentuada.
-A simetria é uma característica inerente a distribuição normal, se esta característica não for observada, não podemos assumir normalidade.
-
-Além dos recursos gráficos, podemos analisar diretamente os sumários numéricos dos dados.
-Ao comparar médias e medianas, podemos ter uma idéia da simetria do conjunto em questão.
-A Tabela \ref{tab:est_descr} mostra os valores de média e mediana de cada conjunto.
-
-\begin{table}[h]
-	\centering
-	\caption{Sumários numéricos dos dados}
-	\label{tab:est_descr}
-	\begin{tabular}{c|cc}
-		Método    	& Média  	& Mediana \\
-		\hline
-		AFSA cMFDR 	& 81.58 	& 81.50  \\
-		cMFDR 		& 81.34 	& 81.30		 \\
-		AFSA MFDR 	& 80.16 	& 80.23 	 \\
-		MFDR 		& 80.06 	& 79.94 	 \\
-		AFSA MFD 	& 81.72 	& 81.95 	 \\
-		MFD 		& 81.78 	& 81.95 	 \\
-		\hline
-	\end{tabular}
-\end{table}
-
-\textcolor{red}{Aqui fica um pouco problemático porque a média próxima à mediana contradiz o boxplot... Sugestões ?}
+Observando os diagramas, vemos que, com exceção de AFSA+MFDR, os diagramas exibem assimetria, alguns inclusive apresentando uma assimetria acentuada, como é o caso de AFSA+MFD.
+A simetria é uma característica inerente à distribuição normal. Um indício de que uma amostra provém de uma população com distribuição aproximadamente normal é a simetria, ou seja, quando média, moda e mediana apresentam valores aproximados e todos eles se encontram aproximadamente no centro da distribuição.
+Como esta característica não é observada nas amostras, temos mais indícios de que não devemos assumir normalidade dos dados.
 
 
 \subsection{Testes de aderência}
 
 Uma maneira mais formal de verificar se as amostras seguem uma distribuição normal é com o uso de testes de aderência.
 Nesta pesquisa, foram executados os testes Shapiro-Wilk~\cite{shapiro1965analysis}, Anderson-Darling~\cite{anderson1954test} e Cramer-von Mises~\cite{durbin1972components}.
-Os resultados dos testes para cada amostra são apresentados na tabela~\ref{tab:aderencia}.
+Os resultados dos testes para cada amostra são apresentados na Tabela~\ref{tab:aderencia}.
+
 
 \begin{table}[h]
 	\centering
 	\caption{Resultados dos testes de aderência.}
 	\label{tab:aderencia}
 	\begin{tabular}{c|ccc}
-		\hline
-		& \multicolumn{3}{c}{\textit{p-value}}      \\
 		\cline{2-4}
-						& Shapiro-Wilk 	& Anderson-Darling  & Cramer-von Mises\\
-		\hline
-		AFSA cMFDR		& 0.75       	& 0.67           	& 0.74 \\
-		cMFDR 			& 0.90       	& 0.86          	& 0.86 \\
-		AFSA MFDR  		& 0.88       	& 0.89          	& 0.87 \\
-		MFDR  			& 0.61       	& 0.47            	& 0.45 \\
-		AFSA MFD   		& 0.19       	& 0.25          	& 0.30 \\
-		MFD   			& 0.88       	& 0.77          	& 0.72 \\
-		\hline
+		\multirow{2}{*}{Método} & \multicolumn{3}{c}{p-value} \\ 
+		\cline{2-4} 
+		& Shapiro-Wilk & Anderson-Darling & Cramer-von Mises \\ \hline
+		AFSA cMFDR & 0.75 & 0.67 & 0.74 \\
+		cMFDR & 0.90 & 0.86 & 0.86 \\
+		AFSA MFDR & 0.88 & 0.89 & 0.87 \\
+		MFDR & 0.61 & 0.47 & 0.45 \\
+		AFSA MFD & 0.19 & 0.25 & 0.30 \\
+		MFD & 0.88 & 0.77 & 0.72 \\ \hline
 	\end{tabular}
 \end{table}
 
 Consideramos que uma amostra não segue uma distribuição normal caso o \textit{p-value} seja menor que 0.05.
-Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, reforçando a impressão obtida da análise dos valores das médias e medianas das amostras~\ref{sec:estat_descr}.
-Porém, é importante salientar que a eficiências de testes de aderência (não paramétricos) é muito prejudicada quando as amostras são pequenas, como no caso em análise.
-Adicionalmente, a análise dos histogramas, normplots e dos boxplots (da maioria das amostras) dão indícios de que as amostras não seguem uma distribuição normal.
+Deste modo, o resultado dos três testes apontam que, para todas as amostras, não existem evidências suficientes para rejeitar a hipótese nula de que a amostra segue uma distribuição normal, o que corrobora a impressão obtida da análise dos valores das médias, medianas e assimetria das amostras (Tabela~\ref{tab:est_descr}).
+Porém, é importante salientar que a eficiências de testes de aderência é prejudicada quando as amostras são pequenas, como no caso em análise.
+Adicionalmente, a observação dos histogramas, gráficos QQ e dos diagramas de caixa dão indícios de que a maioria das amostras não seguem uma distribuição normal.
 Por estas razões, concluímos que, com os dados disponíveis, não temos segurança em afirmar que as amostras seguem uma distribuição normal.
-Diante disto, utilizaremos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
+Diante disto, utilizamos teste de hipótese não-paramétrico para verificar a existência de diferenças significativas entre as amostras.
 
 \subsection{Resultados}
 
 Depois de avaliar as distribuições das amostras, optamos pelo caminho mais seguro, que consiste na comparação dos pares de métodos por testes não paramétricos. 
-Como as comparações a serem executadas são entre pares de algoritmos, optamos pelo teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
+Como estamos realizando comparações entre pares de amostras dependentes, optamos pelo teste de sinais com postos de Wilcoxon \cite{wilcoxon1945individual}.
 
-Estabelecemos a hipótese nula de que os desempenhos dos métodos sendo comparados (com e sem AFSA) são iguais, a hipótese alternativa é que os desempenhos são diferentes. Com esta hipótese, buscamos averiguar se a configuração paramétrica realizada automaticamente por AFSA apresenta algum impacto no desempenho de classificação.
+Estabelecemos a hipótese nula de que os desempenhos dos métodos sendo comparados (com e sem AFSA) são iguais. A hipótese alternativa é que os desempenhos são diferentes. Com este conjunto de hipóteses, buscamos averiguar se a configuração paramétrica realizada automaticamente por AFSA apresenta algum impacto no desempenho de classificação dos métodos cMFDR, MFDR e MFD.
 
 Os resultados dos testes são apresentados na Tabela 
 \ref{tab:rank_sum}.
@@ -403,28 +342,28 @@ Os resultados dos testes são apresentados na Tabela
 		\hline
 		Hipótese alternativa					& \textit{p-value}\\
 		\hline
-		$H_1:$ AFSA MFD $\neq$ MFD   			& 0.44    \\
-		$H_1:$ AFSA MFDR  $\neq$ MFDR			& 0.54    \\
-		$H_1:$ AFSA cMFDR $\neq$ cMFDR			& 0.08    \\
+		$H_1:$ AFSA MFD $\neq$ MFD & 0.44 \\
+		$H_1:$ AFSA MFDR $\neq$ MFDR & 0.54 \\
+		$H_1:$ AFSA cMFDR $\neq$ cMFDR & 0.08 \\
 		\hline
 	\end{tabular}
 \end{table}
 
 Para este teste, consideramos um nível de significância de 0.05.
-Diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, não há indícios suficientes para afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos MFD, MFDR e cMFDR.
-
-Da forma como os testes de hipótese são elaborados, a não rejeição não permite ao experimentador tirar conclusões. 
-Uma boa forma de ganhar mais segurança no resultado seria colher mais amostras de execuções de cada algoritmo, o que aumenta o poder do teste. Entretanto, a execução dos algoritmos apresentados é computacionalmente custosa devido ao tamanho das bases de dados e da alta dimensionalidade inerente ao problema e, dessa forma, a análise inicial precisou ser limitada a um número pequeno de amostras.
-Ainda assim, a não rejeição dá um indício ao experimentador de que talvez o AFSA não cause impactos no desempenho dos algoritmos, o que seria o comportamento desejado.
+Diante dos resultados apresentados na Tabela~\ref{tab:rank_sum}, concluímos, com uma confiança de 95\%, que não há indícios suficientes para rejeitar a hipótese nula. Ou seja, não é possível afirmar que a configuração automática de parâmetros realizada pelo método AFSA impacta no desempenho classificatório dos métodos cMFDR, MFDR e MFD.
 
 
 \section{Conclusão}
 \label{sec:conclusao}
-Pelos experimentos e resultados apresentados, não foi possível obter conclusões fortes sobre as comparações. Em outras palavras, não foi possível rejeitar a hipótese nula de que a inclusão do AFSA não influencia na performance dos algoritmos de classificação.
-Observamos que, para que a comparação por meio do teste de hipótese seja mais precisa, se faz necessário uma amostra maior, especialmente porque testes não paramétricos necessitam de mais amostras do que seus equivalentes paramétricos para obter as mesmas conclusões.
-O aumento da amostra poderia inclusive levar à verificação de normalidade nas amostras, o que alteraria até o próprio teste de comparação.
 
-Vale salientar que, embora o resultado do teste seja inconclusivo para as amostras apresentadas, ele indica que a inclusão do AFSA pode não gerar diferenças significativas de fato, que é um comportamento desejado.
+Este trabalho fez uma avaliação estatística sobre o desempenho de métodos de seleção de características para categorização de texto. Verificamos se a configuração paramétrica automática afeta o desempenho dos métodos cMFDR, MFDR e MFDR.
+Pelos experimentos e resultados apresentados, não foi possível rejeitar a hipótese nula de que a configuração paramétrica do AFSA não afeta a performance dos algoritmos de de seleção de características.
+
+Observamos que, para ganhar mais segurança no resultado dos teses, seria necessário colher amostras maiores, ou seja, executar mais vezes os métodos de seleção de características. Isso seria importante especialmente porque testes não paramétricos geralmente necessitam de amostras maiores que seus equivalentes paramétricos para obter as mesmas conclusões.
+O aumento das amostras poderia inclusive levar à verificação de normalidade nos dadoss, o que alteraria até mesmo o tipo teste de hipóteses empregado. Entretanto, a avaliação dos algoritmos apresentados é computacionalmente custosa, devido ao tamanho das bases de dados e da alta dimensionalidade inerente ao problema de categorização de texto. Dessa forma, a análise inicial precisou ser limitada a um número pequeno de amostras.
+Ainda assim, a não rejeição dá um indício ao experimentador de que o AFSA não causa impactos no desempenho dos algoritmos, o que seria o comportamento desejado.
+
+
 
 
 \bibliographystyle{IEEEtran}
